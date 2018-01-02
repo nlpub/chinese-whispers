@@ -1,0 +1,23 @@
+#!/usr/bin/env python
+
+import argparse
+import networkx as nx
+from chinese_whispers import WEIGHTING, chinese_whispers, aggregate_clusters
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--cw', choices=WEIGHTING.keys(), default='nolog')
+parser.add_argument('--delimiter', default='\t')
+parser.add_argument('edges', type=argparse.FileType('r', encoding='UTF-8'))
+args = parser.parse_args()
+
+lines = (line.rstrip() for line in args.edges)
+
+G = nx.parse_edgelist(lines, delimiter=args.delimiter, data=[('weight', float)])
+
+chinese_whispers(G, WEIGHTING[args.cw])
+
+for label, elements in aggregate_clusters(G).items():
+    label    = str(label)
+    length   = str(len(elements))
+    elements = ', '.join(elements)
+    print('\t'.join((label, length, elements)))
