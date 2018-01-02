@@ -2,7 +2,8 @@ language: python
 python:
 - '3.6'
 - 'pypy3'
-script: 'echo -e "a\tb\t1" | bin/chinese-whispers /dev/stdin'
+before_script: 'pip install .'
+script: 'echo -e "a\tb\t1" | chinese-whispers /dev/stdin'
 deploy:
   provider: pypi
   user: dustalov
