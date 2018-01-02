@@ -1,4 +1,7 @@
 language: python
+python:
+- '3.6'
+- 'pypy3'
 deploy:
   provider: pypi
   user: dustalov
