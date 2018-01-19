@@ -11,6 +11,6 @@ deploy:
     secure: xWC0Saw7KK9aPb/3+Ve/hobjqQkIRlcnMwGy1pZXSm6yKepr+ZTs76kC0dRLqjcuyPT+Ac7f3PnK3VqSzoz6Z6/IVMD0/fkbYHNYSdJe1dBf9QQ/ogRv14VauR7eDYpdIDao8sjLy3/zcgHWbo+LU9W1x9QwnYihX4RBAUyRoAfQvABPHyf61DXZxtH+tlNk+jlzIXrp7Z0RZB21xSIfUiG3CzhEhmmbP7xcUBAFlAxnbm8FApSuc438+ueINMNqxD58kmEE80RIJceZ+qUJ7Nh2Dy8vHa/fsvpJyRzQJUKnPuUGM5sr1i23j74AzFW1QfYVFMdOlICJRHx0zICMFeGxrj+Yct3sJrVRKJwBtN58IBs1GxW1eeWP2h9UOgLikOViwE5fh+zZilbGRJgLBfctBr7cdnnNdPOiOrvij6rXgD3os1B7NgaSvDgxzgGSlQ8Mc6RlwblX215bXK/IOeZuUOc11UqO+rn4zHr9w1DWNq2qN4yYr3lEkLLYFob9W7mqp/Nw7laq0qWyWHTq8tqbHO09n8dhL5G+g7gL+ylIurQ0oewyQ59NF7mMocOjbzkTfnxtHbGhKBuCYAHmW9h1dnMbfzzhPOfWLQvWDgr6zO6IeC5BSzZFc3tfEYSqHnAlAVliMZOKfOf1VeHwkDbdDdwjXSWUn05BwzJwOFo=
   on:
     tags: true
-    distributions: sdist bdist_wheel
+    distributions: bdist_wheel
     repo: nlpub/chinese-whispers-python
     python: '3.6'
