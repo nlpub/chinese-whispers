@@ -13,3 +13,4 @@ deploy:
     tags: true
     distributions: sdist bdist_wheel
     repo: nlpub/chinese-whispers-python
+    python: '3.6'
