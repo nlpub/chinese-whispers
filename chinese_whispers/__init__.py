@@ -3,7 +3,7 @@ from collections import defaultdict
 from math import log2
 from operator import itemgetter
 
-__version__ = '0.3'
+__version__ = '0.4'
 
 
 def top_weighting(G, node, neighbor):
