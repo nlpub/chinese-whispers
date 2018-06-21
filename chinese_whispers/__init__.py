@@ -80,9 +80,14 @@ def aggregate_clusters(G):
     """ Takes as input the labeled graph and outputs a dictionary with the keys
     being cluster IDs and the values being sets of cluster elements. """
 
-    clusters = defaultdict(set)
+    clusters = {}
 
     for node in G:
-        clusters[G.node[node]['label']].add(node)
+        label = G.node[node]['label']
+
+        if label not in clusters:
+            clusters[label] = {node}
+        else:
+            clusters[label].add(node)
 
     return clusters
