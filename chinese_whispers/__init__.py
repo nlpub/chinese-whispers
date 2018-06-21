@@ -1,7 +1,7 @@
+import random
 from collections import defaultdict
 from math import log2
 from operator import itemgetter
-from random import shuffle
 
 __version__ = '0.3'
 
@@ -28,14 +28,17 @@ WEIGHTING = {
 }
 
 
-def chinese_whispers(G, weighting='top', iterations=20):
+def chinese_whispers(G, weighting='top', iterations=20, seed=None):
     """ Performs clustering of nodes in a NetworkX graph G
     using the 'weighting' method. Three weighing schemas are available: 
     'top' relies on the original weights; 'nolog' normalizes an edge weight 
     by the degree of the related node; 'log' normalizes an edge weight by the 
-    logarithm of the output degree. """
+    logarithm of the output degree. It is possible to specify the maximum number
+    of iterations as well as the random seed to use. """
 
     weighting_func = WEIGHTING[weighting] if isinstance(weighting, str) else weighting
+
+    shuffle_func = random.shuffle if seed is None else random.Random(seed).shuffle
 
     for i, node in enumerate(G):
         G.node[node]['label'] = i + 1
@@ -44,7 +47,7 @@ def chinese_whispers(G, weighting='top', iterations=20):
         changes = False
 
         nodes = list(G)
-        shuffle(nodes)
+        shuffle_func(nodes)
 
         for node in nodes:
             previous = G.node[node]['label']
