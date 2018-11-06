@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='chinese-whispers',
-      version='0.4',
+      version='0.5',
       description='An implementation of the Chinese Whispers clustering algorithm.',
       url='https://github.com/nlpub/chinese-whispers-python',
       author='Dmitry Ustalov, Alexander Panchenko',
