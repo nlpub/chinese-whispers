@@ -43,10 +43,11 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
     for i, node in enumerate(G):
         G.node[node]['label'] = i + 1
 
+    nodes = list(G)
+
     for i in range(iterations):
         changes = False
 
-        nodes = list(G)
         shuffle_func(nodes)
 
         for node in nodes:
