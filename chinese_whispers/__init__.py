@@ -70,6 +70,9 @@ def score(G, node, weighting_func):
 
     scores = Counter()
 
+    if node not in G:
+        return scores
+
     for neighbor in G[node]:
         scores[G.node[neighbor]['label']] += weighting_func(G, node, neighbor)
 
