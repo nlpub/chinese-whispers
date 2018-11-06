@@ -1,5 +1,5 @@
 import random
-from collections import defaultdict
+from collections import Counter
 from math import log2
 from operator import itemgetter
 
@@ -53,7 +53,8 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
             previous = G.node[node]['label']
 
             if G[node]:
-                G.node[node]['label'] = choose_label(G, node, weighting_func)
+                scores = score(G, node, weighting_func)
+                G.node[node]['label'], _ = max(scores.items(), key=itemgetter(1))
 
             changes = changes or previous != G.node[node]['label']
 
@@ -63,17 +64,15 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
     return G
 
 
-def choose_label(G, node, weighting_func):
-    """ Updates the node label based on the local neighborhood of the node. """
+def score(G, node, weighting_func):
+    """ Computes label scores in the given node neighborhood. """
 
-    labels = defaultdict(float)
+    scores = Counter()
 
     for neighbor in G[node]:
-        labels[G.node[neighbor]['label']] += weighting_func(G, node, neighbor)
+        scores[G.node[neighbor]['label']] += weighting_func(G, node, neighbor)
 
-    label, _ = max(labels.items(), key=itemgetter(1))
-
-    return label
+    return scores
 
 
 def aggregate_clusters(G):
