@@ -23,7 +23,8 @@ More usage examples are available in the [sample notebook](samples.ipynb).
 In case you require higher performance, please consider our Java implementation that also includes other graph clustering algorithms: <https://github.com/nlpub/watset-java>.
 
 
-##EDIT
+## EDIT
+
 Added a cython version of the module. This allows for performance gains (x5 especially for very large graphs, more than 10 000 nodes)
 This is a beta version, which currently only works with unweighted graphs. 
 Multi-threading will be implemented in the next version.
