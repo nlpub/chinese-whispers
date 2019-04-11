@@ -11,11 +11,13 @@ from matplotlib import pyplot as plt
 
 DTYPE=np.intc
 
+#label_this_node does what it says, basically looking for all the labels of the neighbor nodes and counting them. 
 @cython.boundscheck(False)
 cdef void label_this_node(int[:] arr_all_labels, int[:,:] arr_edges, int[:] arr_cum, int[:] arr_shuff, int c) nogil:
     
     cdef int new_label, n, j, count, i, beginning, end, lenght, cum_index
-
+    
+    #initialize the array of labels for this node's neighbors
     cum_index = arr_shuff[c]
     if cum_index == 0:
         beginning = 0
@@ -33,7 +35,8 @@ cdef void label_this_node(int[:] arr_all_labels, int[:,:] arr_edges, int[:] arr_
         arr_to_process[i] = arr_all_labels[n]
     for i in range(lenght):
         freq[i] = -1
-
+        
+    #count the labels. This is a simple counter, it will be modified to accomodate for weighted graphs
     for i in range(lenght):
         count = 1;
         for j in range(i + 1, lenght):    
@@ -42,7 +45,8 @@ cdef void label_this_node(int[:] arr_all_labels, int[:,:] arr_edges, int[:] arr_
                 freq[j] = 0
         if freq[i] != 0:
             freq[i] = count
-
+   
+    #find the highest count and return it
     cdef int max_i = 0
     cdef int maxi = freq[0]
     for i in range(lenght):
@@ -55,9 +59,8 @@ cdef void label_this_node(int[:] arr_all_labels, int[:,:] arr_edges, int[:] arr_
 
     with gil:
         arr_all_labels[node_id] = new_label
-        #print('f')
 
-
+#each iteration is a call to this function
 def update_labels(all_labels_v, edges_v, cum_no_neighbors_v):
     
     cdef int l = len(cum_no_neighbors_v) 
@@ -72,7 +75,7 @@ def update_labels(all_labels_v, edges_v, cum_no_neighbors_v):
 
         label_this_node(all_labels_v, edges_v, cum_no_neighbors_v, shuffled_v, c)
 
-
+#main function. It takes the Networkx graph, puts it in a structure it can understand, and launches the iterations
 def cluster(G, n, draw=False):
 
     start=datetime.now()
@@ -103,8 +106,8 @@ def cluster(G, n, draw=False):
 
     print(datetime.now()-start)
 
-    most_10 = Counter(all_labels).most_common(10)
-    print(most_10)
+    most_10 = Counter(all_labels).most_common(10) 
+    print(most_10) #prints the most common 10 labels, with their count
 
     for node in G:
         if G[node]:
@@ -112,7 +115,8 @@ def cluster(G, n, draw=False):
 
     if draw: draw_graph(G, all_labels)
 
-
+#A simple way of drawing the graph with the largest clusters in different colors. 
+#Very beta, uses Networkx draw library which is based on Matplotlib. DON'T use on very large graphs as it will crash!
 def draw_graph(G, all_labels):
     most_5 = Counter(all_labels).most_common(4)
     red = []
