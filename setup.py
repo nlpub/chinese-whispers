@@ -1,23 +1,21 @@
-from setuptools import setup
+from distutils.core import setup
+from Cython.Build import cythonize
+from distutils.extension import Extension
+from Cython.Distutils import build_ext
 
-setup(name='chinese-whispers',
-      version='0.5',
-      description='An implementation of the Chinese Whispers clustering algorithm.',
-      url='https://github.com/nlpub/chinese-whispers-python',
-      author='Dmitry Ustalov, Alexander Panchenko',
-      author_email='dmitry.ustalov@gmail.com',
-      license='MIT',
-      packages=['chinese_whispers'],
-      scripts=['bin/chinese-whispers'],
-      classifiers=[
-          'Development Status :: 4 - Beta',
-          'Intended Audience :: Developers',
-          'Topic :: Scientific/Engineering :: Information Analysis',
-          'License :: OSI Approved :: MIT License',
-          'Programming Language :: Python :: 3',
-          'Programming Language :: Python :: 3.6',
-      ],
-      install_requires=[
-          'networkx',
-      ],
-      zip_safe=True)
+ext_modules=[
+    Extension("tredici",
+              ["tredici.pyx"],
+              extra_compile_args = ["-fopenmp" ],
+              extra_link_args=['-fopenmp']
+              ) 
+]
+
+setup( 
+  name = "chinese-whispers-cython",
+  version = "0.2",
+  description = "An implementation of the Chinese Whispers clustering algorithm in Cython, for better performance",
+  install_requires = ["networkx", "scipy", "numpy", "cython"],
+  cmdclass = {"build_ext": build_ext},
+  ext_modules = ext_modules
+)
