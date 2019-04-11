@@ -73,7 +73,7 @@ def update_labels(all_labels_v, edges_v, cum_no_neighbors_v):
         label_this_node(all_labels_v, edges_v, cum_no_neighbors_v, shuffled_v, c)
 
 
-def corri(G, n, draw=False):
+def cluster(G, n, draw=False):
 
     start=datetime.now()
 
