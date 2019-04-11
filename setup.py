@@ -4,7 +4,7 @@ from distutils.extension import Extension
 from Cython.Distutils import build_ext
 
 ext_modules=[
-    Extension("chinese-whispers-cython",
+    Extension("chinese_whispers_cython",
               ["chinese-whispers-cython.pyx"],
               extra_compile_args = ["-fopenmp" ],
               extra_link_args=['-fopenmp']
