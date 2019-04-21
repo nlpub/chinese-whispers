@@ -23,6 +23,7 @@ More usage examples are available in the [sample notebook](samples.ipynb).
 In case you require higher performance, please consider our Java implementation that also includes other graph clustering algorithms: <https://github.com/nlpub/watset-java>.
 
 
+
 ## EDIT
 
 Added a cython version of the module. This allows for performance gains (x5 especially for very large graphs, more than 10 000 nodes)
@@ -34,7 +35,7 @@ To run, do:
 python3 setup.py build_ext --inplace
 ```
 and then import the module in python:
-```
+```python
 import chinese_whispers_cython
 chinese_whispers_cython.chinese_whispers(G, it=20, weighted=False, threads=1)
 ```
