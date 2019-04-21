@@ -171,7 +171,7 @@ def update_labels(
                 &weights_v[0],
                 c)
 
-def corri(G, it=20, weighted=False, threads=1):
+def chinese_whispers(G, it=20, weighted=False, threads=1):
 
     start=datetime.now()
 
