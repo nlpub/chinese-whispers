@@ -36,8 +36,9 @@ python3 setup.py build_ext --inplace
 and then import the module in python:
 ```
 import chinese_whispers_cython
-chinese_whispers_cython.cluster(G, 10)
+chinese_whispers_cython.chinese_whispers(G, it=20, weighted=False, threads=1)
 ```
-where G is a Networkx Graph and 10 is the number of iterations.
+where G is a Networkx Graph and 20 is the number of iterations. You can switch multi-threading on by changing the threads argument.
+
 
 Comments are welcomed, I hope the original developers appreciate the contribution.
