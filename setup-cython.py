@@ -13,7 +13,7 @@ ext_modules=[
 
 setup( 
   name = "chinese-whispers-cython",
-  version = "0.2",
+  version = "0.3",
   description = "An implementation of the Chinese Whispers clustering algorithm in Cython, for better performance",
   install_requires = ["networkx", "scipy", "numpy", "cython"],
   cmdclass = {"build_ext": build_ext},
