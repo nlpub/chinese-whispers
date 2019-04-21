@@ -26,7 +26,7 @@ In case you require higher performance, please consider our Java implementation 
 
 ## EDIT
 
-Added a cython version of the module. This allows for performance gains (x5 especially for very large graphs, more than 10 000 nodes)
+Added a [Cython](https://cython.org/) version of the module. This allows for performance gains (x5 especially for very large graphs, more than 10 000 nodes)
 This is a beta version, which currently supports unweighted and weighted graphs, but only the 'top' algorithm from the original module.
 
 
