@@ -183,6 +183,14 @@ def chinese_whispers(G, it=20, weighted=False, threads=1):
     edges_d = edges[1] #the destination of the edge
     cdef const int [::1] edges_ov = edges_o
     cdef const int [::1] edges_dv = edges_d
+    
+    # a graph with edges: (node1-node2, node1-node3) is represented as such:
+    # edges_o = [node1, node1, node2, node3]
+    # edges_d = [node2, node3, node1, node1]
+    # weights = [weight_1_2, weight_1_3, weight_2_1, weight_3_1], where weight_1_2 = weight_2_1, and weight_1_3 = weight_3_1
+    #
+    # the labels array is a 1d array where the node id is the array index, and the label is the int value at that index
+    # 
 
     if weighted:
         weights = M[(edges_o,edges_d)]
@@ -215,6 +223,7 @@ def chinese_whispers(G, it=20, weighted=False, threads=1):
     print(datetime.now()-start)
 
     most_10 = Counter(all_labels).most_common(10)
+    print('The 10 labels with the most nodes are: (label:count)')
     print(most_10)
 
     for node in G:
