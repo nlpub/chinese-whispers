@@ -15,7 +15,11 @@ except ImportError:
 
 if USE_CYTHON:
     ext_modules=[
-         Extension("chinese_whispers.cyt", ["cyt.pyx"], optional=True, extra_compile_args = ["-fopenmp" ], extra_link_args=['-fopenmp'])]
+         Extension("chinese_whispers.cyt", ["cyt.pyx"], 
+                   include_dirs=[numpy.get_include()])
+                   optional=True, 
+                   extra_compile_args = ["-fopenmp" ], 
+                   extra_link_args=['-fopenmp'])]
     cmdclass = {'build_ext': build_ext}
     install_requires=['networkx','scipy','numpy']
     opts = {"install_requires": install_requires, "ext_modules": ext_modules, "cmdclass": cmdclass}
