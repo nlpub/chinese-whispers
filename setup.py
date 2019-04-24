@@ -1,7 +1,11 @@
 from setuptools import setup
-from Cython.Build import cythonize
-from setuptools.extension import Extension
-from Cython.Distutils import build_ext
+try:
+    from Cython.Build import cythonize
+    from setuptools.extension import Extension
+    from Cython.Distutils import build_ext
+    print('Cython is installed, building extension.')
+except ImportError:
+    print('Cython is not installed, using pre-built C file if available.')
 
 ext_modules=[
     Extension("chinese_whispers.cyt",
