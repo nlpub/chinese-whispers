@@ -5,6 +5,19 @@ from operator import itemgetter
 
 __version__ = '0.5'
 
+try:
+    import chinese_whispers.cyt
+    print('''
+        Successfully imported Cython modules. You can use both implementations: pure Python and Cython
+
+        For pure Python run: chinese_whispers.chinese_whispers(G, weighting='top', iterations=20, seed=None)
+
+        For Cython run: chinese_whispers.cyt.chinese_whispers(G, iterations=20, weighted=False, draw=False, threads=1)
+        ''')
+
+except ImportError:
+    print('Could not import Cython modules, using pure Python implementation')
+
 
 def top_weighting(G, node, neighbor):
     """ A weight is the edge weight. """
