@@ -26,7 +26,7 @@ In case you require higher performance, please consider our Java implementation 
 
 ## EDIT
 
-Added a [Cython](https://cython.org/) version of the module. 
+Added a [Cython](https://cython.org/) module to the Python implementation. 
 
 This allows for performance gains.
 It is often 10 to 20 times faster than the pure Python implementation, especially for very large graphs (more than 10 000 nodes, up to millions of edges). Still, about 70% of the computing time is spent on copying the Networkx Graph to C arrays. This means that the more iterations you run, the faster it will be compared to the pure Python implementation.
