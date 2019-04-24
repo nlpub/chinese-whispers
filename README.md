@@ -45,11 +45,10 @@ chinese_whispers.cyt.chinese_whispers(G, it=20, weighted=False, threads=1)
 ```
 where `G` is a Networkx Graph and 20 is the number of iterations. You can switch multi-threading on by changing the `threads` argument. If it has worked, you will see this message:
 ```
-        Successfully imported Cython modules. You can use both implementations: pure Python and Cython
+Successfully imported Cython modules. You can use both implementations: pure Python and Cython
 
-        For pure Python run: chinese_whispers.chinese_whispers(G, weighting='top', iterations=20, seed=None)
-
-        For Cython run: chinese_whispers.cyt.chinese_whispers(G, iterations=20, weighted=False, draw=False, threads=1)
+For pure Python run: chinese_whispers.chinese_whispers(G, weighting='top', iterations=20, seed=None)
+For Cython run: chinese_whispers.cyt.chinese_whispers(G, iterations=20, weighted=False, draw=False, threads=1)
 ```
 Otherwise, you will see this message:
 ```
