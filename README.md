@@ -36,14 +36,24 @@ This is a beta version, which currently supports unweighted and weighted graphs,
 
 To run, do:
 ```
-python3 setup.py build_ext --inplace
+python3 setup.py install
 ```
-and then import the module in python:
+Please note that the Cython implementation also requires numpy and scipy to work. Currently, setup.py doesn't check for this, but you can verify everything works by importing the module in Python:
 ```python
-import chinese_whispers_cython
-chinese_whispers_cython.chinese_whispers(G, it=20, weighted=False, threads=1)
+import chinese_whispers
+chinese_whispers.cyt.chinese_whispers(G, it=20, weighted=False, threads=1)
 ```
-where `G` is a Networkx Graph and 20 is the number of iterations. You can switch multi-threading on by changing the `threads` argument.
+where `G` is a Networkx Graph and 20 is the number of iterations. You can switch multi-threading on by changing the `threads` argument. If it has worked, you will see this message:
+```
+        Successfully imported Cython modules. You can use both implementations: pure Python and Cython
 
+        For pure Python run: chinese_whispers.chinese_whispers(G, weighting='top', iterations=20, seed=None)
+
+        For Cython run: chinese_whispers.cyt.chinese_whispers(G, iterations=20, weighted=False, draw=False, threads=1)
+```
+Otherwise, you will see this message:
+```
+    Could not import Cython modules, using pure Python implementation
+```
 
 Comments are welcomed, I hope the original developers appreciate the contribution.
