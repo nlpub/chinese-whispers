@@ -16,7 +16,7 @@ except ImportError:
 if USE_CYTHON:
     ext_modules=[
          Extension("chinese_whispers.cyt", ["cyt.pyx"], 
-                   include_dirs=[numpy.get_include()])
+                   include_dirs=[numpy.get_include()],
                    optional=True, 
                    extra_compile_args = ["-fopenmp" ], 
                    extra_link_args=['-fopenmp'])]
@@ -25,7 +25,7 @@ if USE_CYTHON:
     opts = {"install_requires": install_requires, "ext_modules": ext_modules, "cmdclass": cmdclass}
 elif path.isfile(path.join(here, 'cyt.c')):
     print("Found pre-built C file")
-    ext_modules = [Extension('chinese_whispers.cyt', ['cyt.c'])]
+    ext_modules = [Extension('chinese_whispers.cyt', ['cyt.c'], include_dirs=[numpy.get_include()])]
     install_requires=['networkx','scipy','numpy']
     cmdclass = {}
     opts = {"install_requires": install_requires, "ext_modules": ext_modules, "cmdclass": cmdclass}
