@@ -17,15 +17,18 @@ if USE_CYTHON:
     ext_modules=[
          Extension("chinese_whispers.cyt", ["cyt.pyx"], optional=True, extra_compile_args = ["-fopenmp" ], extra_link_args=['-fopenmp'])]
     cmdclass = {'build_ext': build_ext}
-    opts = {"ext_modules": ext_modules, "cmdclass": cmdclass}
+    install_requires=['networkx','scipy','numpy']
+    opts = {"install_requires": install_requires, "ext_modules": ext_modules, "cmdclass": cmdclass}
 elif path.isfile(path.join(here, 'cyt.c')):
     print("Found pre-built C file")
     ext_modules = [Extension('chinese_whispers.cyt', ['cyt.c'])]
+    install_requires=['networkx','scipy','numpy']
     cmdclass = {}
-    opts = {"ext_modules": ext_modules, "cmdclass": cmdclass}
+    opts = {"install_requires": install_requires, "ext_modules": ext_modules, "cmdclass": cmdclass}
 else:
     print("Pre-built C file is not available. Using pure Python implementation")
-    opts = {}
+    install_requires=['networkx']
+    opts = {"install_requires": install_requires}
 
 setup(name='chinese-whispers',
       version='0.5',
@@ -43,6 +46,5 @@ setup(name='chinese-whispers',
           'License :: OSI Approved :: MIT License',
           'Programming Language :: Python :: 3',
           'Programming Language :: Python :: 3.6',],
-      install_requires=['networkx'],
       zip_safe=True,
       **opts)
