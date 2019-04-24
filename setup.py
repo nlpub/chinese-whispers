@@ -1,7 +1,8 @@
 from setuptools import setup
+from setuptools.extension import Extension
+
 try:
     from Cython.Build import cythonize
-    from setuptools.extension import Extension
     from Cython.Distutils import build_ext
     print('Cython is installed, building extension.')
 except ImportError:
