@@ -38,7 +38,7 @@ To run, do:
 ```
 python3 setup.py install
 ```
-Please note that the Cython implementation also requires numpy and scipy to work. Currently, setup.py doesn't check for this, but you can verify everything works by importing the module in Python:
+Please note that the Cython implementation also requires [Numpy](https://www.numpy.org/) and [Scipy](https://www.scipy.org/) to work. Currently, setup.py doesn't check for this, but you can verify everything works by importing the module in Python:
 ```python
 import chinese_whispers
 chinese_whispers.cyt.chinese_whispers(G, it=20, weighted=False, threads=1)
