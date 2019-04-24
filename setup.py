@@ -11,6 +11,7 @@ try:
     USE_CYTHON=True
 except ImportError:
     print('Cython is not installed, using pre-built C file if available.')
+    USE_CYTHON = False
 
 if USE_CYTHON:
     ext_modules=[
