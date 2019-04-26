@@ -16,7 +16,7 @@ except ImportError:
 if USE_CYTHON:
     ext_modules=[
          Extension("chinese_whispers.cyt", ["cyt.pyx"], 
-                   include_dirs=[numpy.get_include()],
+                   #include_dirs=[numpy.get_include()],
                    optional=True, 
                    extra_compile_args = ["-fopenmp" ], 
                    extra_link_args=['-fopenmp'])]
