@@ -25,7 +25,9 @@ if USE_CYTHON:
     opts = {"install_requires": install_requires, "ext_modules": ext_modules, "cmdclass": cmdclass}
 elif path.isfile(path.join(here, 'cyt.c')):
     print("Found pre-built C file")
-    ext_modules = [Extension('chinese_whispers.cyt', ['cyt.c'], include_dirs=[numpy.get_include()])]
+    ext_modules = [Extension('chinese_whispers.cyt', ['cyt.c'], 
+                             #include_dirs=[numpy.get_include()]
+                            )]
     install_requires=['networkx','scipy','numpy']
     cmdclass = {}
     opts = {"install_requires": install_requires, "ext_modules": ext_modules, "cmdclass": cmdclass}
