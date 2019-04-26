@@ -7,14 +7,19 @@ here = path.abspath(path.dirname(__file__))
 try:
     from Cython.Build import cythonize
     from Cython.Distutils import build_ext
-    import numpy
     print('Cython is installed, building extension.')
     USE_CYTHON=True
 except ImportError:
-    print('Cython or Numpy is not installed, using pre-built C file if available.')
+    print('Cython is not installed, using pre-built C file if available.')
     USE_CYTHON = False
+try:
+    import numpy
+    NUMPY_THERE = True
+except ImportError:
+    NUMPY_THERE = False
+    print('Numpy is not installed, falling back to pure Python implementation')
 
-if USE_CYTHON:
+if USE_CYTHON and NUMPY_THERE:
     ext_modules=[
          Extension("chinese_whispers.cyt", ["cyt.pyx"], 
                    include_dirs=[numpy.get_include()],
@@ -24,7 +29,7 @@ if USE_CYTHON:
     cmdclass = {'build_ext': build_ext}
     install_requires=['networkx','scipy','numpy']
     opts = {"install_requires": install_requires, "ext_modules": ext_modules, "cmdclass": cmdclass}
-elif path.isfile(path.join(here, 'cyt.c')):
+elif path.isfile(path.join(here, 'cyt.c')) and NUMPY_THERE:
     print("Found pre-built C file")
     ext_modules = [Extension('chinese_whispers.cyt', ['cyt.c'], 
                              include_dirs=[numpy.get_include()]
