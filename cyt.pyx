@@ -1,6 +1,5 @@
 #cython: boundscheck=False
 
-import sys
 import numpy as np
 cimport numpy as np
 import networkx as nx
@@ -174,8 +173,6 @@ def update_labels(
 
 def chinese_whispers(G, it=20, weighted=False, threads=1):
 
-    start=datetime.now()
-
     M = nx.to_scipy_sparse_matrix(G,dtype=FLOAT,format='lil')
     cdef int nodes = M.shape[0]
 
@@ -214,18 +211,9 @@ def chinese_whispers(G, it=20, weighted=False, threads=1):
     cdef int [::1] all_labels_v = all_labels
     cdef const int [::1] cum_no_neighbors_v = cum_no_neighbors
 
-    sys.stderr.write('finished preparations, updating labels..\n')
-    sys.stderr.write(datetime.now()-start)
-
     for iteration in range(it):
         update_labels(all_labels_v, edges_ov, edges_dv, cum_no_neighbors_v, weights_v, threads)
-
-    sys.stderr.write(datetime.now()-start)
-
-    most_10 = Counter(all_labels).most_common(10)
-    sys.stderr.write('The 10 labels with the most nodes are: (label:count)\n')
-    sys.stderr.write(most_10)
-
+        
     for node in G:
         if G[node]:
             G.node[node]['label'] = all_labels[node]
