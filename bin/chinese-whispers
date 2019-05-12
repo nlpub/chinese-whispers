@@ -16,7 +16,7 @@ args = parser.parse_args()
 
 lines = (line.rstrip() for line in args.edges)
 
-G = nx.parse_edgelist(lines, delimiter=args.delimiter, data=[('weight', float)])
+G = nx.parse_edgelist(lines, delimiter=args.delimiter, comments='\n', data=[('weight', float)])
 
 chinese_whispers(G, args.weighting, args.iterations, args.seed)
 
