@@ -18,6 +18,6 @@ setup(name='chinese-whispers',
           'Programming Language :: Python :: 3.6',
       ],
       install_requires=[
-          'networkx',
+          'networkx >= 2.1,<3.0',
       ],
       zip_safe=True)

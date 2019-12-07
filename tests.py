@@ -32,12 +32,12 @@ class TestChineseWhispers(unittest.TestCase):
         self.assertEqual(self.G, self.H)
 
     def test_labels(self):
-        self.assertEqual(34, len(self.H.node))
+        self.assertEqual(34, len(self.H.nodes))
 
-        self.assertEqual(self.G.node, self.H.node)
+        self.assertEqual(self.G.nodes, self.H.nodes)
 
         for node in self.H:
-            self.assertIsNotNone(self.H.node[node]['label'])
+            self.assertIsNotNone(self.H.nodes[node]['label'])
 
     def test_aggregation(self):
         clusters = aggregate_clusters(self.H)

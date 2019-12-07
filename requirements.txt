@@ -1,1 +1,1 @@
-networkx
+networkx >= 2.1,<3.0

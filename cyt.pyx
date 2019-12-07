@@ -216,6 +216,6 @@ def chinese_whispers(G, it=20, weighted=False, threads=1):
         
     for node in G:
         if G[node]:
-            G.node[node]['label'] = all_labels[node]
+            G.nodes[node]['label'] = all_labels[node]
 
 

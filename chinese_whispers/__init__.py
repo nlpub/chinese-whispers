@@ -43,7 +43,7 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
     choice_func = rng.choice
 
     for i, node in enumerate(G):
-        G.node[node]['label'] = i + 1
+        G.nodes[node]['label'] = i + 1
 
     nodes = list(G)
 
@@ -53,13 +53,13 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
         shuffle_func(nodes)
 
         for node in nodes:
-            previous = G.node[node]['label']
+            previous = G.nodes[node]['label']
 
             if G[node]:
                 scores = score(G, node, weighting_func)
-                G.node[node]['label'] = random_argmax(scores.items(), choice_func=choice_func)
+                G.nodes[node]['label'] = random_argmax(scores.items(), choice_func=choice_func)
 
-            changes = changes or previous != G.node[node]['label']
+            changes = changes or previous != G.nodes[node]['label']
 
         if not changes:
             break
@@ -76,7 +76,7 @@ def score(G, node, weighting_func):
         return scores
 
     for neighbor in G[node]:
-        scores[G.node[neighbor]['label']] += weighting_func(G, node, neighbor)
+        scores[G.nodes[neighbor]['label']] += weighting_func(G, node, neighbor)
 
     return scores
 
@@ -100,7 +100,7 @@ def aggregate_clusters(G):
     clusters = {}
 
     for node in G:
-        label = G.node[node]['label']
+        label = G.nodes[node]['label']
 
         if label not in clusters:
             clusters[label] = {node}
