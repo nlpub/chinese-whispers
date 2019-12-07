@@ -4,9 +4,12 @@ python:
 - '3.5'
 - '3.6'
 - '3.7'
+- '3.8'
 - 'pypy3'
 before_script: pip install .
-script: echo -e "a\tb\t1" | chinese-whispers /dev/stdin
+script:
+- python3 tests.py
+- echo -e "a\tb\t1" | chinese-whispers /dev/stdin
 deploy:
   provider: pypi
   user: dustalov
