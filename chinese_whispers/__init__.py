@@ -38,7 +38,9 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
 
     weighting_func = WEIGHTING[weighting] if isinstance(weighting, str) else weighting
 
-    shuffle_func = random.shuffle if seed is None else random.Random(seed).shuffle
+    rng = random.Random(seed) if seed else random
+    shuffle_func = rng.shuffle
+    choice_func = rng.choice
 
     for i, node in enumerate(G):
         G.node[node]['label'] = i + 1
@@ -55,7 +57,7 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
 
             if G[node]:
                 scores = score(G, node, weighting_func)
-                G.node[node]['label'], _ = max(scores.items(), key=itemgetter(1))
+                G.node[node]['label'] = random_argmax(scores.items(), choice_func=choice_func)
 
             changes = changes or previous != G.node[node]['label']
 
@@ -77,6 +79,18 @@ def score(G, node, weighting_func):
         scores[G.node[neighbor]['label']] += weighting_func(G, node, neighbor)
 
     return scores
+
+
+def random_argmax(items, choice_func=random.choice):
+    """An argmax function that breaks the ties randomly."""
+    if not items:
+        return
+
+    _, maximum = max(items, key=itemgetter(1))
+
+    keys = [k for k, v in items if v == maximum]
+
+    return choice_func(keys)
 
 
 def aggregate_clusters(G):
