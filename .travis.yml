@@ -6,7 +6,7 @@ python:
 - '3.7'
 - '3.8'
 - 'pypy3'
-before_script: pip install .
+before_script: pip3 install .
 script:
 - python3 tests.py
 - echo -e "a\tb\t1" | chinese-whispers /dev/stdin
