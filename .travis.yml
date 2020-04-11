@@ -8,6 +8,7 @@ python:
 - 'pypy3'
 before_script:
 - pip install -r requirements-dev.txt
+- pip install .
 script:
 - mypy --ignore-missing-imports chinese_whispers/__init__.py
 - python3 tests.py
