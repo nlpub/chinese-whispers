@@ -5,7 +5,7 @@ from math import log2
 from operator import itemgetter
 
 if sys.version_info[:2] >= (3, 5):
-    from typing import Any, Callable, Collection, Sequence, Tuple, ItemsView, Union, Dict, Optional, Set
+    from typing import Any, Callable, Sequence, Tuple, ItemsView, Union, Dict, Optional, Set
 
 from networkx.classes import Graph
 
@@ -100,7 +100,7 @@ def score(G, node, weighting_func):
 
 
 def random_argmax(items, choice_func=random.choice):
-    # type: (Union[Collection[Tuple[Any, float]], ItemsView[Any, float]], Callable[[Sequence[Any]], Any]) -> Optional[int]
+    # type: (Union[Sequence[Tuple[Any, float]], ItemsView[Any, float]], Callable[[Sequence[Any]], Any]) -> Optional[int]
     """An argmax function that breaks the ties randomly."""
     if not items:
         # https://github.com/python/mypy/issues/1003
