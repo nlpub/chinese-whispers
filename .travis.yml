@@ -6,7 +6,8 @@ python:
 - '3.7'
 - '3.8'
 - 'pypy3'
-before_script: pip3 install .
+before_script:
+- pip install -r requirements-dev.txt
 script:
 - mypy --ignore-missing-imports chinese_whispers/__init__.py
 - python3 tests.py
