@@ -8,6 +8,7 @@ python:
 - 'pypy3'
 before_script: pip3 install .
 script:
+- mypy --ignore-missing-imports chinese_whispers/__init__.py
 - python3 tests.py
 - echo -e "a\tb\t1" | chinese-whispers /dev/stdin
 deploy:
