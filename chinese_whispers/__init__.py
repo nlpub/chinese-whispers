@@ -114,11 +114,11 @@ def random_argmax(items, choice_func=random.choice):
 
 
 def aggregate_clusters(G):
-    # type: (Graph) -> Dict[int, Set[int]]
+    # type: (Graph) -> Dict[int, Set[Any]]
     """ Takes as input the labeled graph and outputs a dictionary with the keys
     being cluster IDs and the values being sets of cluster elements. """
 
-    clusters = {}  # type: Dict[int, Set]
+    clusters = {}  # type: Dict[int, Set[Any]]
 
     for node in G:
         label = G.nodes[node]['label']
