@@ -9,7 +9,7 @@ if sys.version_info[:2] >= (3, 5):
 
 from networkx.classes import Graph
 
-__version__ = '0.6.1'
+__version__ = '0.6.2'
 
 
 def top_weighting(G, node, neighbor):
