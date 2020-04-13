@@ -16,7 +16,7 @@ before_script:
 - python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
 script:
 - mypy --ignore-missing-imports .
-- python3 tests.py
+- python3 -munittest discover
 - python3 -mchinese_whispers karate_club.tsv
 - chinese-whispers karate_club.tsv
 deploy:

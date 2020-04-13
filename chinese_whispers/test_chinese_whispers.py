@@ -9,7 +9,7 @@ if sys.version_info[:2] >= (3, 5):
 
 import networkx as nx
 
-from chinese_whispers import chinese_whispers, aggregate_clusters, random_argmax
+from .chinese_whispers import chinese_whispers, aggregate_clusters, random_argmax
 
 
 class TestRandomArgMax(unittest.TestCase):

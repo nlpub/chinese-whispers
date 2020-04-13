@@ -31,7 +31,7 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --ignore=E402,F401 --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run Unit Tests
-      run: python3 tests.py
+      run: python3 -munittest discover
     - name: Run Module
       run: python3 -mchinese_whispers karate_club.tsv
     - name: Run CLI
