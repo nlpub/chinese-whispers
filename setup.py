@@ -1,19 +1,21 @@
 from setuptools import setup
 
+from chinese_whispers import __version__, __license__
+
 with open('README.md', 'r', encoding='UTF-8') as f:
     long_description = f.read()
 
 setup(name='chinese-whispers',
-      version='0.6.2',
+      version=__version__,
       description='An implementation of the Chinese Whispers clustering algorithm.',
       long_description=long_description,
       long_description_content_type='text/markdown',
       url='https://github.com/nlpub/chinese-whispers-python',
       author='NLPub',
       maintainer='Dmitry Ustalov',
-      license='MIT',
+      license=__license__,
       packages=['chinese_whispers'],
-      scripts=['bin/chinese-whispers'],
+      entry_points={'console_scripts': ['chinese-whispers = chinese_whispers.__main__:main']},
       classifiers=[
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',

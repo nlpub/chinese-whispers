@@ -3,7 +3,8 @@
 import argparse
 
 import networkx as nx
-from chinese_whispers import chinese_whispers, aggregate_clusters, WEIGHTING
+
+from chinese_whispers import __version__ as version, chinese_whispers, aggregate_clusters, WEIGHTING
 
 
 def main():
@@ -12,6 +13,7 @@ def main():
     parser.add_argument('--delimiter', default='\t')
     parser.add_argument('--iterations', type=int, default=20)
     parser.add_argument('--seed', type=int, default=None)
+    parser.add_argument('--version', action='version', version='Chinese Whispers v' + version)
     parser.add_argument('edges', type=argparse.FileType('r', encoding='UTF-8'))
     args = parser.parse_args()
 
