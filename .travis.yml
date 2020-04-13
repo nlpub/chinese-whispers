@@ -16,7 +16,7 @@ before_script:
 script:
 - mypy --ignore-missing-imports chinese_whispers/__init__.py
 - python3 tests.py
-- python3 -mchinese_whispers /dev/stdin
+- echo -e "a\tb\t1" | python3 -mchinese_whispers /dev/stdin
 - echo -e "a\tb\t1" | chinese-whispers /dev/stdin
 deploy:
   provider: pypi
