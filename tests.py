@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
+import sys
 import unittest
 from random import Random
+
+if sys.version_info[:2] >= (3, 5):
+    from typing import Tuple, Sequence
 
 import networkx as nx
 
@@ -9,7 +13,7 @@ from chinese_whispers import chinese_whispers, aggregate_clusters, random_argmax
 
 
 class TestRandomArgMax(unittest.TestCase):
-    EMPTY = []
+    EMPTY = []  # type: Sequence[Tuple[int, int]]
     ITEMS = [(1, 3), (2, 1), (3, 2), (4, 3)]
 
     def test_empty(self):

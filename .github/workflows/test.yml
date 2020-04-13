@@ -24,12 +24,12 @@ jobs:
         pip install .
         python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
     - name: Lint with Mypy
-      run: mypy --ignore-missing-imports chinese_whispers/__init__.py
+      run: mypy --ignore-missing-imports .
     - name: Lint with flake8
       run: |
         pip install flake8
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        flake8 . --count --ignore=E402,F401 --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Run Unit Tests
       run: python3 tests.py
     - name: Run Module
