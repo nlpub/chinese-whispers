@@ -18,6 +18,19 @@ chinese_whispers(G, weighting='top', iterations=20)
 
 As the result, each node of the input graph is provided with the `label` attribute that stores the cluster label.
 
+The library also offers a convenient command-line interface (CLI) for clustering graphs represented in the ABC tab-separated format (source`\t`target`\t`weight).
+
+```shell
+# Write karate_club.tsv (just as example)
+python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
+
+# Using as CLI
+chinese-whispers karate_club.tsv
+
+# Using as module (same CLI as above)
+python3 -mchinese_whispers karate_club.tsv
+```
+
 More usage examples are available in the [sample notebook](samples.ipynb).
 
 In case you require higher performance, please consider our Java implementation that also includes other graph clustering algorithms: <https://github.com/nlpub/watset-java>.

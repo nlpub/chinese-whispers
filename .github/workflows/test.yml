@@ -22,6 +22,7 @@ jobs:
         pip install -r requirements.txt
         pip install -r requirements-dev.txt
         pip install .
+        python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
     - name: Lint with Mypy
       run: mypy --ignore-missing-imports chinese_whispers/__init__.py
     - name: Lint with flake8
@@ -32,6 +33,6 @@ jobs:
     - name: Run Unit Tests
       run: python3 tests.py
     - name: Run Module
-      run: echo -e "a\tb\t1" | python3 -mchinese_whispers /dev/stdin
+      run: echo -e "a\tb\t1" | python3 -mchinese_whispers karate_club.tsv
     - name: Run CLI
-      run: echo -e "a\tb\t1" | chinese-whispers /dev/stdin
+      run: echo -e "a\tb\t1" | chinese-whispers karate_club.tsv
