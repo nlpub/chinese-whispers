@@ -17,8 +17,8 @@ before_script:
 script:
 - mypy --ignore-missing-imports .
 - python3 tests.py
-- echo -e "a\tb\t1" | python3 -mchinese_whispers karate_club.tsv
-- echo -e "a\tb\t1" | chinese-whispers karate_club.tsv
+- python3 -mchinese_whispers karate_club.tsv
+- chinese-whispers karate_club.tsv
 deploy:
   provider: pypi
   user: dustalov
