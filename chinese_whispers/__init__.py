@@ -1,6 +1,6 @@
-__version__ = '0.7.0'
+__version__ = '0.7.1'
 __author__ = 'NLPub'
-__credits__ = ['Dmitry Ustalov', 'Alexander Panchenko']
+__credits__ = ['Dmitry Ustalov', 'Alexander Panchenko', 'Alexander Chambers']
 __license__ = 'MIT'
 
 from .chinese_whispers import WEIGHTING, top_weighting, lin_weighting, log_weighting
