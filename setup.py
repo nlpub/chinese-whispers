@@ -14,7 +14,7 @@ def get_package_variable(name, rel_path='chinese_whispers/__init__.py'):
             match = pattern.match(line)
 
             if match:
-                return match['value']
+                return match.group('value')
         else:
             raise RuntimeError('Unable to find variable: ' + name)
 
