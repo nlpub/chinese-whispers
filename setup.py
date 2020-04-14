@@ -1,25 +1,26 @@
-import codecs
 import os.path
+import re
 
 from setuptools import setup
 
-def read(rel_path):
-    here = os.path.abspath(os.path.dirname(__file__))
-    with codecs.open(os.path.join(here, rel_path), 'r') as fp:
-        return fp.read()
 
-def get_package_var(name, rel_path):
-    for line in read(rel_path).splitlines():
-        if line.startswith(name):
-            delim = '"' if '"' in line else "'"
-            return line.split(delim)[1]
-    else:
-        raise RuntimeError("Unable to find version string.")
+def get_package_variable(name, rel_path='chinese_whispers/__init__.py'):
+    path = os.path.join(os.path.abspath(os.path.dirname(__file__)), rel_path)
 
-init_path = "chinese_whispers/__init__.py"
+    pattern = re.compile(r'^{}.*?([\'"])(?P<value>.+)\1.*$'.format(re.escape(name)))
 
-__version__ = get_package_var("__version__", init_path)
-__license__ = get_package_var("__license__", init_path)
+    with open(path, 'r', encoding='UTF-8') as f:
+        for line in f:
+            match = pattern.match(line)
+
+            if match:
+                return match['value']
+        else:
+            raise RuntimeError('Unable to find variable: ' + name)
+
+
+__version__ = get_package_variable('__version__')
+__license__ = get_package_variable('__license__')
 
 with open('README.md', 'r', encoding='UTF-8') as f:
     long_description = f.read()
@@ -38,10 +39,12 @@ setup(name='chinese-whispers',
       classifiers=[
           'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
-          'Topic :: Scientific/Engineering :: Information Analysis',
+          'Intended Audience :: Science/Research',
           'License :: OSI Approved :: MIT License',
           'Operating System :: OS Independent',
           'Programming Language :: Python :: 3',
+          'Topic :: Scientific/Engineering :: Information Analysis',
+          'Typing :: Typed'
       ],
       keywords=['graph clustering', 'unsupervised learning', 'chinese whispers', 'cluster analysis'],
       install_requires=[
