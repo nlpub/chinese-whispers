@@ -1,6 +1,25 @@
+import codecs
+import os.path
+
 from setuptools import setup
 
-from chinese_whispers import __version__, __license__
+def read(rel_path):
+    here = os.path.abspath(os.path.dirname(__file__))
+    with codecs.open(os.path.join(here, rel_path), 'r') as fp:
+        return fp.read()
+
+def get_package_var(name, rel_path):
+    for line in read(rel_path).splitlines():
+        if line.startswith(name):
+            delim = '"' if '"' in line else "'"
+            return line.split(delim)[1]
+    else:
+        raise RuntimeError("Unable to find version string.")
+
+init_path = "chinese_whispers/__init__.py"
+
+__version__ = get_package_var("__version__", init_path)
+__license__ = get_package_var("__license__", init_path)
 
 with open('README.md', 'r', encoding='UTF-8') as f:
     long_description = f.read()
