@@ -1,5 +1,6 @@
 import random
 import sys
+import warnings
 from collections import defaultdict
 from math import log2
 from operator import itemgetter
@@ -16,6 +17,12 @@ def top_weighting(G, node, neighbor):
     return G[node][neighbor].get('weight', 1.)
 
 
+def nolog_weighting(G, node, neighbor):
+    # type: (Graph, Any, Any) -> float
+    warnings.warn('"nolog" weighting is now called "lin"', DeprecationWarning)
+    return lin_weighting(G, node, neighbor)
+
+
 def lin_weighting(G, node, neighbor):
     # type: (Graph, Any, Any) -> float
     """ A weight is the edge weight divided to the node degree. """
@@ -30,7 +37,8 @@ def log_weighting(G, node, neighbor):
 
 WEIGHTING = {
     'top': top_weighting,
-    'nolog': lin_weighting,
+    'nolog': nolog_weighting,
+    'lin': lin_weighting,
     'log': log_weighting
 }  # type: Dict[str, Callable[[Graph, Any, Any], float]]
 
@@ -39,7 +47,7 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
     # type: (Graph, Union[str, Callable[[Graph, Any, Any], float]], int, Optional[int]) -> Graph
     """ Performs clustering of nodes in a NetworkX graph G
     using the 'weighting' method. Three weighing schemas are available:
-    'top' relies on the original weights; 'nolog' normalizes an edge weight
+    'top' relies on the original weights; 'lin' normalizes an edge weight
     by the degree of the related node (will be renamed to 'lin');
     'log' normalizes an edge weight by the logarithm of the output degree.
     It is possible to specify the maximum number of iterations as well
