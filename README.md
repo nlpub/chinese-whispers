@@ -2,8 +2,10 @@
 
 This is an implementation of the [Chinese Whispers](https://doi.org/10.3115/1654758.1654774) clustering algorithm in Python. Since this library is based on [NetworkX](https://networkx.github.io/), it is simple to use.
 
-[![Build Status][travis_ci_badge]][travis_ci_link] [![PyPI version][pypi_badge]][pypi_link]
+[![Unit Tests on GitHub Actions][github_tests_badge]][github_tests_link] [![Unit Tests on Travis CI][travis_ci_badge]][travis_ci_link] [![PyPI Version][pypi_badge]][pypi_link]
 
+[github_tests_badge]: https://github.com/nlpub/chinese-whispers-python/workflows/Unit%20Tests/badge.svg?branch=master
+[github_tests_link]: https://github.com/nlpub/chinese-whispers-python/actions?query=workflow%3A%22Unit+Tests%22
 [pypi_badge]: https://badge.fury.io/py/chinese-whispers.svg
 [pypi_link]: https://pypi.python.org/pypi/chinese-whispers
 [travis_ci_badge]: https://travis-ci.org/nlpub/chinese-whispers-python.svg
