@@ -25,6 +25,9 @@ __license__ = get_package_variable('__license__')
 with open('README.md', 'r', encoding='UTF-8') as f:
     long_description = f.read()
 
+with open('requirements.txt', 'r', encoding='UTF-8') as f:
+    install_requires = f.read()
+
 setup(name='chinese-whispers',
       version=__version__,
       description='An implementation of the Chinese Whispers clustering algorithm.',
@@ -47,7 +50,5 @@ setup(name='chinese-whispers',
           'Typing :: Typed'
       ],
       keywords=['graph clustering', 'unsupervised learning', 'chinese whispers', 'cluster analysis'],
-      install_requires=[
-          'networkx >= 2.1,<3.0',
-      ],
+      install_requires=install_requires,
       zip_safe=True)
