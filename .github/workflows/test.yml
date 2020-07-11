@@ -39,3 +39,5 @@ jobs:
       run: python3 -mchinese_whispers karate_club.tsv
     - name: Run CLI
       run: chinese-whispers karate_club.tsv
+    - name: Run Jupyter
+      run: jupyter nbconvert --to notebook --execute samples.ipynb
