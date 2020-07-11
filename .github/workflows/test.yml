@@ -40,4 +40,11 @@ jobs:
     - name: Run CLI
       run: chinese-whispers karate_club.tsv
     - name: Run Jupyter
-      run: jupyter nbconvert --to notebook --execute samples.ipynb
+      run: jupyter nbconvert --to notebook --output pages/index.html --execute samples.ipynb
+      if: ${{ python-version == '3.8' }}
+    - name: Upload Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./pages
+      if: ${{ python-version == '3.8' }}
