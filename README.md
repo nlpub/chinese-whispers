@@ -35,7 +35,7 @@ chinese-whispers karate_club.tsv
 python3 -mchinese_whispers karate_club.tsv
 ```
 
-More usage examples are available in the [sample notebook](samples.ipynb).
+A more complete usage example is available in the [example notebook](example.ipynb) and at <https://nlpub.github.io/chinese-whispers-python/>.
 
 In case you require higher performance, please consider our Java implementation that also includes other graph clustering algorithms: <https://github.com/nlpub/watset-java>.
 

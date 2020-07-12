@@ -42,7 +42,7 @@ jobs:
     - name: Setup Jupyter
       run: mkdir jupyter
     - name: Run Jupyter
-      run: jupyter nbconvert --to html --output jupyter/index.html --execute samples.ipynb
+      run: jupyter nbconvert --to html --output jupyter/index.html --execute example.ipynb
     - name: Upload Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
