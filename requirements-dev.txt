@@ -1,3 +1,4 @@
 mypy
 jupyterlab
 matplotlib
+sphinx-autoapi
