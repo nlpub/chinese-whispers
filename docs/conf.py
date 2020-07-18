@@ -20,6 +20,9 @@ extensions = [
     'autoapi.extension',
 ]
 
+
+# -- Path setup --------------------------------------------------------------
+
 autoapi_type = 'python'
 autoapi_dirs = ['../chinese_whispers']
 autoapi_ignore = ['test_*.py']
