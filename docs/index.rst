@@ -8,15 +8,6 @@ simple to use.
 .. _Chinese Whispers: https://doi.org/10.3115/1654758.1654774
 .. _NetworkX: https://networkx.github.io/
 
-|Unit Tests| |Read the Docs| |PyPI Version|
-
-.. |Unit Tests| image:: https://github.com/nlpub/chinese-whispers-python/workflows/Unit%20Tests/badge.svg?branch=master
-   :target: https://github.com/nlpub/chinese-whispers-python/actions?query=workflow%3A%22Unit+Tests%22
-.. |Read the Docs| image:: https://readthedocs.org/projects/chinese-whispers/badge/?version=latest
-   :target: https://chinese-whispers.readthedocs.io/en/latest/?badge=latest
-.. |PyPI Version| image:: https://badge.fury.io/py/chinese-whispers.svg
-   :target: https://pypi.python.org/pypi/chinese-whispers
-
 * :ref:`modindex`
 * :ref:`search`
 
