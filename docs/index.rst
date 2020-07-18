@@ -18,6 +18,10 @@ following code:
 As the result, each node of the input graph is provided with the
 ``label`` attribute that stores the cluster label.
 
+.. _Chinese Whispers: https://doi.org/10.3115/1654758.1654774
+.. _NetworkX: https://networkx.github.io/
+.. _cluster: https://en.wikipedia.org/wiki/Cluster_analysis
+
 The library also offers a convenient command-line interface (CLI) for
 clustering graphs represented in the ABC tab-separated format
 (source\ ``\t``\ target\ ``\t``\ weight).
@@ -40,10 +44,7 @@ In case you require higher performance, please consider our Java
 implementation that also includes other graph clustering algorithms:
 https://github.com/nlpub/watset-java.
 
-.. _Chinese Whispers: https://doi.org/10.3115/1654758.1654774
-.. _NetworkX: https://networkx.github.io/
-.. _cluster: https://en.wikipedia.org/wiki/Cluster_analysis
-.. _example notebook: example.ipynb
+.. _example notebook: https://github.com/nlpub/chinese-whispers-python/blob/master/example.ipynb
 
 .. |Unit Tests| image:: https://github.com/nlpub/chinese-whispers-python/workflows/Unit%20Tests/badge.svg?branch=master
    :target: https://github.com/nlpub/chinese-whispers-python/actions?query=workflow%3A%22Unit+Tests%22
@@ -51,3 +52,28 @@ https://github.com/nlpub/watset-java.
    :target: https://chinese-whispers.readthedocs.io/en/latest/?badge=latest
 .. |PyPI Version| image:: https://badge.fury.io/py/chinese-whispers.svg
    :target: https://pypi.python.org/pypi/chinese-whispers
+
+Citation
+--------
+
+-  Ustalov, D., Panchenko, A., Biemann, C., Ponzetto, S.P.: `Watset:
+   Local-Global Graph Clustering with Applications in Sense and Frame
+   Induction`_. Computational Linguistics 45(3), 423–479 (2019)
+
+.. code:: bibtex
+
+   @article{Ustalov:19:cl,
+     author    = {Ustalov, Dmitry and Panchenko, Alexander and Biemann, Chris and Ponzetto, Simone Paolo},
+     title     = {{Watset: Local-Global Graph Clustering with Applications in Sense and Frame Induction}},
+     journal   = {Computational Linguistics},
+     year      = {2019},
+     volume    = {45},
+     number    = {3},
+     pages     = {423--479},
+     doi       = {10.1162/COLI_a_00354},
+     publisher = {MIT Press},
+     issn      = {0891-2017},
+     language  = {english},
+   }
+
+.. _`Watset: Local-Global Graph Clustering with Applications in Sense and Frame Induction`: https://doi.org/10.1162/COLI_a_00354
