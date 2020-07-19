@@ -8,6 +8,7 @@ from chinese_whispers import __version__ as version, chinese_whispers, aggregate
 
 
 def main():
+    """Entry point for the Chinese Whispers command-line interface."""
     parser = argparse.ArgumentParser()
     parser.add_argument('--weighting', choices=WEIGHTING.keys(), default='nolog')
     parser.add_argument('--delimiter', default='\t')

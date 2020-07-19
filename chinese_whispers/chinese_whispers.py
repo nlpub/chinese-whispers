@@ -13,7 +13,7 @@ from networkx.classes import Graph
 
 def top_weighting(G, node, neighbor):
     # type: (Graph, Any, Any) -> float
-    """ A weight is the edge weight. """
+    """A weight is the edge weight."""
     return G[node][neighbor].get('weight', 1.)
 
 
@@ -25,16 +25,17 @@ def nolog_weighting(G, node, neighbor):
 
 def lin_weighting(G, node, neighbor):
     # type: (Graph, Any, Any) -> float
-    """ A weight is the edge weight divided to the node degree. """
+    """A weight is the edge weight divided to the node degree."""
     return G[node][neighbor].get('weight', 1.) / G.degree[neighbor]
 
 
 def log_weighting(G, node, neighbor):
     # type: (Graph, Any, Any) -> float
-    """ A weight is the edge weight divided to the log2 of node degree. """
+    """A weight is the edge weight divided to the log2 of node degree."""
     return G[node][neighbor].get('weight', 1.) / log2(G.degree[neighbor] + 1)
 
 
+"""Shortcuts for the node weighting functions."""
 WEIGHTING = {
     'top': top_weighting,
     'nolog': nolog_weighting,
@@ -45,13 +46,20 @@ WEIGHTING = {
 
 def chinese_whispers(G, weighting='top', iterations=20, seed=None):
     # type: (Graph, Union[str, Callable[[Graph, Any, Any], float]], int, Optional[int]) -> Graph
-    """ Performs clustering of nodes in a NetworkX graph G
-    using the 'weighting' method. Three weighing schemas are available:
-    'top' relies on the original weights; 'lin' normalizes an edge weight
-    by the degree of the related node (will be renamed to 'lin');
-    'log' normalizes an edge weight by the logarithm of the output degree.
-    It is possible to specify the maximum number of iterations as well
-    as the random seed to use. """
+    """Perform clustering of nodes in a graph G using the 'weighting' method.
+
+    Three weighing schemas are available:
+
+    top
+      Just use the edge weights from the input graph.
+
+    lin
+      Normalize an edge weight by the degree of the related node.
+
+    log
+      Normalize an edge weight by the logarithm of the related node degree.
+
+    It is possible to specify the maximum number of iterations as well as the random seed to use."""
 
     if isinstance(weighting, str):
         weighting_func = WEIGHTING[weighting]
@@ -93,7 +101,7 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
 
 def score(G, node, weighting_func):
     # type: (Graph, Any, Callable[[Graph, Any, Any], float]) -> Dict[int, float]
-    """ Computes label scores in the given node neighborhood. """
+    """Compute label scores in the given node neighborhood."""
 
     scores = defaultdict(float)  # type: Dict[int, float]
 
@@ -122,8 +130,7 @@ def random_argmax(items, choice_func=random.choice):
 
 def aggregate_clusters(G):
     # type: (Graph) -> Dict[int, Set[Any]]
-    """ Takes as input the labeled graph and outputs a dictionary with the keys
-    being cluster IDs and the values being sets of cluster elements. """
+    """Produce a dictionary with the keys being cluster IDs and the values being sets of cluster elements."""
 
     clusters = {}  # type: Dict[int, Set[Any]]
 
