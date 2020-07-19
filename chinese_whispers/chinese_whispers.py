@@ -1,6 +1,5 @@
 import random
 import sys
-import warnings
 from collections import defaultdict
 from math import log2
 from operator import itemgetter
@@ -15,12 +14,6 @@ def top_weighting(G, node, neighbor):
     # type: (Graph, Any, Any) -> float
     """A weight is the edge weight."""
     return G[node][neighbor].get('weight', 1.)
-
-
-def nolog_weighting(G, node, neighbor):
-    # type: (Graph, Any, Any) -> float
-    warnings.warn('"nolog" weighting is now called "lin"', DeprecationWarning)
-    return lin_weighting(G, node, neighbor)
 
 
 def lin_weighting(G, node, neighbor):
@@ -38,7 +31,6 @@ def log_weighting(G, node, neighbor):
 """Shortcuts for the node weighting functions."""
 WEIGHTING = {
     'top': top_weighting,
-    'nolog': nolog_weighting,
     'lin': lin_weighting,
     'log': log_weighting
 }  # type: Dict[str, Callable[[Graph, Any, Any], float]]
