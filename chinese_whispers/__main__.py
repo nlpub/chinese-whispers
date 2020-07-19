@@ -10,7 +10,7 @@ from chinese_whispers import __version__ as version, chinese_whispers, aggregate
 def main():
     """Entry point for the Chinese Whispers command-line interface."""
     parser = argparse.ArgumentParser()
-    parser.add_argument('--weighting', choices=WEIGHTING.keys(), default='nolog')
+    parser.add_argument('--weighting', choices=WEIGHTING.keys(), default='lin')
     parser.add_argument('--delimiter', default='\t')
     parser.add_argument('--iterations', type=int, default=20)
     parser.add_argument('--seed', type=int, default=None)
