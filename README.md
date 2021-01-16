@@ -6,8 +6,8 @@ This is an implementation of the [Chinese Whispers](https://doi.org/10.3115/1654
 
 [github_tests_badge]: https://github.com/nlpub/chinese-whispers-python/workflows/Unit%20Tests/badge.svg?branch=master
 [github_tests_link]: https://github.com/nlpub/chinese-whispers-python/actions?query=workflow%3A%22Unit+Tests%22
-[rtfd_badge]: https://readthedocs.org/projects/chinese-whispers/badge/?version=latest
-[rtfd_link]: https://chinese-whispers.readthedocs.io/en/latest/?badge=latest
+[rtfd_badge]: https://readthedocs.org/projects/chinese-whispers/badge/
+[rtfd_link]: https://chinese-whispers.readthedocs.io/
 [pypi_badge]: https://badge.fury.io/py/chinese-whispers.svg
 [pypi_link]: https://pypi.python.org/pypi/chinese-whispers
 
