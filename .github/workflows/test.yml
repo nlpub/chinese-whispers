@@ -42,6 +42,7 @@ jobs:
       run: |
         mkdir jupyter
         jupyter nbconvert --to html --output jupyter/index.html --execute example.ipynb
+      if: matrix.python-version == '3.9'
     - name: Upload Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
