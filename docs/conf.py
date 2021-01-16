@@ -7,9 +7,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Chinese Whispers'
-copyright = '2018-2020 <a href="https://github.com/nlpub/chinese-whispers-python">NLPub</a>'
+copyright = '2018-2021 <a href="https://github.com/nlpub/chinese-whispers-python">NLPub</a>'
 author = 'Dmitry Ustalov'
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -19,7 +18,6 @@ author = 'Dmitry Ustalov'
 extensions = [
     'autoapi.extension',
 ]
-
 
 # -- Path setup --------------------------------------------------------------
 
@@ -33,7 +31,6 @@ templates_path = ['_templates']
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
 
 # -- Options for HTML output -------------------------------------------------
 
