@@ -23,7 +23,7 @@ jobs:
       run: |
         python3 -m pip install --upgrade pip
         pip install pipenv
-        pipenv install --dev
+        pipenv install --dev --system
     - name: Write karate_club.tsv
       run: pipenv run python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
     - name: Lint with Mypy
