@@ -17,7 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip pipenv
-        pipenv install --dev -e .
+        pipenv install --dev
     - name: Create release
       id: create_release
       uses: actions/create-release@v1

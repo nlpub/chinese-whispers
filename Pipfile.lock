@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e2404a4d0692a803b0c2d7d613a1d7a7e0cbc6c6b7821482ae3dc725ad719b9e"
+            "sha256": "901b4be9bfbce2d2fcc4fa83296dbe493dece37248f10e094e5c2c2d4fcb8719"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -14,6 +14,10 @@
         ]
     },
     "default": {
+        "chinese-whispers": {
+            "editable": true,
+            "path": "."
+        },
         "decorator": {
             "hashes": [
                 "sha256:41fa54c2a0cc4ba648be4fd43cff00aedf5b9465c9bf18d64325bc225f08f760",
