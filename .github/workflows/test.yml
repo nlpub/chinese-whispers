@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.5, 3.6, 3.7, 3.8]
+        python-version: [3.5, 3.6, 3.7, 3.8, 3.9]
 
     steps:
     - uses: actions/checkout@v2
@@ -21,31 +21,29 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r requirements-dev.txt
-        pip install .
-        python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
+        python3 -m pip install --upgrade pip pipenv
+        pipenv install --dev -e .
+    - name: Write karate_club.tsv
+      run: pipenv run python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
     - name: Lint with Mypy
-      run: mypy --ignore-missing-imports .
+      run: pipenv run mypy --ignore-missing-imports .
     - name: Lint with flake8
       run: |
-        pip install flake8
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        flake8 . --count --ignore=E402,F401 --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        pipenv run flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        pipenv run flake8 . --count --ignore=E402,F401 --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with unittest
-      run: python3 -munittest discover
+      run: pipenv run python3 -munittest discover
     - name: Run Module
-      run: python3 -mchinese_whispers karate_club.tsv
+      run: pipenv run python3 -mchinese_whispers karate_club.tsv
     - name: Run CLI
-      run: chinese-whispers karate_club.tsv
-    - name: Setup Jupyter
-      run: mkdir jupyter
+      run: pipenv run chinese-whispers karate_club.tsv
     - name: Run Jupyter
-      run: jupyter nbconvert --to html --output jupyter/index.html --execute example.ipynb
+      run: |
+        mkdir jupyter
+        pipenv run jupyter nbconvert --to html --output jupyter/index.html --execute example.ipynb
     - name: Upload Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./jupyter
-      if: matrix.python-version == '3.8' && github.ref == 'refs/heads/master'
+      if: matrix.python-version == '3.9' && github.ref == 'refs/heads/master'
