@@ -21,7 +21,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip pipenv
+        python3 -m pip install --upgrade pip
+        pip install pipenv
         pipenv install --dev
     - name: Write karate_club.tsv
       run: pipenv run python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
