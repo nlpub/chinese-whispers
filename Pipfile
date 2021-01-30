@@ -9,7 +9,7 @@ chinese-whispers = {editable = true, path = "."}
 
 [dev-packages]
 mypy = "*"
-jupyterlab = "*"
+notebook = "*"
 matplotlib = "*"
 flake8 = "*"
 twine = "*"
