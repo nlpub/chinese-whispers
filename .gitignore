@@ -103,4 +103,7 @@ ENV/
 # mypy
 .mypy_cache/
 
+# Pipenv
+Pipfile.lock
+
 *.tsv
