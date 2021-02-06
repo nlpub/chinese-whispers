@@ -24,6 +24,8 @@ jobs:
         python3 -m pip install --upgrade pip
         pip install pipenv
         pipenv install --dev --system --skip-lock
+    - name: Build
+      run: python3 -m build --sdist --wheel .
     - name: Write karate_club.tsv
       run: python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
     - name: Lint with Mypy
@@ -33,16 +35,15 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --ignore=E402,F401 --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with unittest
-      run: python3 -munittest discover
+      run: python3 -m unittest discover
     - name: Run Module
-      run: python3 -mchinese_whispers karate_club.tsv
+      run: python3 -m chinese_whispers karate_club.tsv
     - name: Run CLI
       run: chinese-whispers karate_club.tsv
     - name: Run Jupyter
       run: |
         mkdir jupyter
         jupyter nbconvert --to html --output jupyter/index.html --execute example.ipynb
-      if: matrix.python-version == '3.9'
     - name: Upload Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
