@@ -24,8 +24,6 @@ jobs:
         python3 -m pip install --upgrade pip
         pip install pipenv
         pipenv install --dev --system --skip-lock
-    - name: Build
-      run: python3 -m build --sdist --wheel .
     - name: Write karate_club.tsv
       run: python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
     - name: Lint with Mypy
@@ -44,6 +42,8 @@ jobs:
       run: |
         mkdir jupyter
         jupyter nbconvert --to html --output jupyter/index.html --execute example.ipynb
+    - name: Build
+      run: python3 -m build --sdist --wheel .
     - name: Upload Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
