@@ -1,0 +1,29 @@
+package:
+  name: "chinese_whispers"
+  version: "0.7.4"
+
+source:
+  git_rev: v0.7.4
+  git_url: https://github.com/GiulioRossetti/chinese-whispers-python
+
+requirements:
+  host:
+    - python
+    - setuptools
+  build:
+    - python
+    - setuptools
+  run:
+    - python>=3.7
+    - networkx>=2.4
+
+about:
+  home: https://github.com/GiulioRossetti/chinese-whispers-python
+  license: MIT License
+  license_familY: MIT
+  license_file: LICENSE
+  summary: "Implementation of the Chinese Whispers clustering algorithm in Python"
+
+extra:
+  recipe-maintainers:
+    - GiulioRossetti
