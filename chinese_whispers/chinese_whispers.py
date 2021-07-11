@@ -36,7 +36,7 @@ WEIGHTING = {
 }  # type: Dict[str, Callable[[Graph, Any, Any], float]]
 
 
-def chinese_whispers(G, weighting='top', iterations=20, seed=None):
+def chinese_whispers(G, weighting='top', iterations=20, seed=None, label_key='label'):
     # type: (Graph, Union[str, Callable[[Graph, Any, Any], float]], int, Optional[int]) -> Graph
     """Perform clustering of nodes in a graph G using the 'weighting' method.
 
@@ -67,7 +67,7 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
         choice_func = random.choice
 
     for i, node in enumerate(G):
-        G.nodes[node]['label'] = i + 1
+        G.nodes[node][label_key] = i + 1
 
     nodes = list(G)
 
@@ -77,13 +77,13 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
         shuffle_func(nodes)
 
         for node in nodes:
-            previous = G.nodes[node]['label']
+            previous = G.nodes[node][label_key]
 
             if G[node]:
-                scores = score(G, node, weighting_func)
-                G.nodes[node]['label'] = random_argmax(scores.items(), choice_func=choice_func)
+                scores = score(G, node, weighting_func, label_key)
+                G.nodes[node][label_key] = random_argmax(scores.items(), choice_func=choice_func)
 
-            changes = changes or previous != G.nodes[node]['label']
+            changes = changes or previous != G.nodes[node][label_key]
 
         if not changes:
             break
@@ -91,7 +91,7 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None):
     return G
 
 
-def score(G, node, weighting_func):
+def score(G, node, weighting_func, label_key):
     # type: (Graph, Any, Callable[[Graph, Any, Any], float]) -> Dict[int, float]
     """Compute label scores in the given node neighborhood."""
 
@@ -101,7 +101,7 @@ def score(G, node, weighting_func):
         return scores
 
     for neighbor in G[node]:
-        scores[G.nodes[neighbor]['label']] += weighting_func(G, node, neighbor)
+        scores[G.nodes[neighbor][label_key]] += weighting_func(G, node, neighbor)
 
     return scores
 
@@ -120,14 +120,14 @@ def random_argmax(items, choice_func=random.choice):
     return choice_func(keys)
 
 
-def aggregate_clusters(G):
+def aggregate_clusters(G, label_key='label'):
     # type: (Graph) -> Dict[int, Set[Any]]
     """Produce a dictionary with the keys being cluster IDs and the values being sets of cluster elements."""
 
     clusters = {}  # type: Dict[int, Set[Any]]
 
     for node in G:
-        label = G.nodes[node]['label']
+        label = G.nodes[node][label_key]
 
         if label not in clusters:
             clusters[label] = {node}
