@@ -37,7 +37,7 @@ WEIGHTING = {
 
 
 def chinese_whispers(G, weighting='top', iterations=20, seed=None, label_key='label'):
-    # type: (Graph, Union[str, Callable[[Graph, Any, Any], float]], int, Optional[int], Optional[str]) -> Graph
+    # type: (Graph, Union[str, Callable[[Graph, Any, Any], float]], int, Optional[int], str) -> Graph
     """Perform clustering of nodes in a graph G using the 'weighting' method.
 
     Three weighing schemas are available:
@@ -92,7 +92,7 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None, label_key='la
 
 
 def score(G, node, weighting_func, label_key):
-    # type: (Graph, Any, Callable[[Graph, Any, Any], float]) -> Dict[int, float]
+    # type: (Graph, Any, Callable[[Graph, Any, Any], float], str) -> Dict[int, float]
     """Compute label scores in the given node neighborhood."""
 
     scores = defaultdict(float)  # type: Dict[int, float]
@@ -121,7 +121,7 @@ def random_argmax(items, choice_func=random.choice):
 
 
 def aggregate_clusters(G, label_key='label'):
-    # type: (Graph, Optional[str]) -> Dict[int, Set[Any]]
+    # type: (Graph, str) -> Dict[int, Set[Any]]
     """Produce a dictionary with the keys being cluster IDs and the values being sets of cluster elements."""
 
     clusters = {}  # type: Dict[int, Set[Any]]
