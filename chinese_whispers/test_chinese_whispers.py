@@ -29,9 +29,11 @@ class TestChineseWhispers(unittest.TestCase):
     SEED = 1337
 
     G = nx.karate_club_graph()
+    custom_label_key = "cluster_id"
 
     def setUp(self):
         self.H = chinese_whispers(self.G, seed=self.SEED)
+        self.H_with_label_key = chinese_whispers(self.G, seed=self.SEED, label_key=self.custom_label_key)
 
     def test_return(self):
         self.assertEqual(self.G, self.H)
@@ -44,8 +46,22 @@ class TestChineseWhispers(unittest.TestCase):
         for node in self.H:
             self.assertIsNotNone(self.H.nodes[node]['label'])
 
+    def test_labels_with_custom_key(self):
+        for node in self.H_with_label_key:
+            self.assertIsNotNone(self.H_with_label_key.nodes[node][self.custom_label_key])
+
     def test_aggregation(self):
         clusters = aggregate_clusters(self.H)
+
+        self.assertEqual(2, len(clusters))
+
+        index = {node: cluster_id for cluster_id, cluster in clusters.items() for node in cluster}
+
+        self.assertEqual(34, len(index))
+        self.assertTrue(index[0] != index[33])
+
+    def test_aggregation_with_label_key(self):
+        clusters = aggregate_clusters(self.H_with_label_key, label_key=self.custom_label_key)
 
         self.assertEqual(2, len(clusters))
 
