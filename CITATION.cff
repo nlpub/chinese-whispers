@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: If you use this software, please cite the article from preferred-citation.
+authors:
+- family-names: Ustalov
+  given-names: Dmitry
+  orcid: "https://orcid.org/0000-0002-9979-2188"
+title: Chinese Whispers for Python
+license: MIT
+repository-artifact: https://pypi.org/project/chinese-whispers/
+repository-code: https://github.com/nlpub/chinese-whispers-python
+preferred-citation:
+  type: article
+  authors:
+  - family-names: Ustalov
+    given-names: Dmitry
+  - family-names: Panchenko
+    given-names: Alexander
+  - family-names: Biemann
+    given-names: Chris
+  - family-names: Ponzetto
+    given-names: Simone Paolo
+  title: "Watset: Local-Global Graph Clustering with Applications in Sense and Frame Induction"
+  year: 2019
+  journal: Computational Linguistics
+  volume: 45
+  issue: 3
+  start: 423
+  end: 479
+  doi: "10.1162/COLI_a_00354"
+  issn: 0891-2017
