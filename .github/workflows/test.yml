@@ -27,7 +27,7 @@ jobs:
     - name: Write karate_club.tsv
       run: python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
     - name: Lint with Mypy
-      run: mypy --ignore-missing-imports .
+      run: mypy --ignore-missing-imports --strict .
     - name: Lint with flake8
       run: |
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
