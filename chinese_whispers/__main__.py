@@ -7,7 +7,7 @@ import networkx as nx
 from chinese_whispers import __version__ as version, chinese_whispers, aggregate_clusters, WEIGHTING
 
 
-def main():
+def main() -> None:
     """Entry point for the Chinese Whispers command-line interface."""
     parser = argparse.ArgumentParser()
     parser.add_argument('--weighting', choices=WEIGHTING.keys(), default='lin')
@@ -26,10 +26,9 @@ def main():
     chinese_whispers(G, args.weighting, args.iterations, args.seed)
 
     for label, elements in aggregate_clusters(G).items():
-        label = str(label)
-        length = str(len(elements))
-        elements = ', '.join(elements)
-        print('\t'.join((label, length, elements)))
+        elements_str = ', '.join(elements)
+
+        print('\t'.join((str(label), str(len(elements)), elements_str)))
 
 
 if __name__ == '__main__':

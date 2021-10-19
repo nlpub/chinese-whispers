@@ -5,7 +5,7 @@ from math import log2
 from operator import itemgetter
 
 if sys.version_info[:2] >= (3, 5):
-    from typing import Any, Callable, Sequence, Tuple, ItemsView, Union, Dict, Optional, Set
+    from typing import Any, Callable, Sequence, Tuple, ItemsView, Union, Dict, Optional, Set, cast
 
 from networkx.classes import Graph
 
@@ -13,19 +13,19 @@ from networkx.classes import Graph
 def top_weighting(G, node, neighbor):
     # type: (Graph, Any, Any) -> float
     """A weight is the edge weight."""
-    return G[node][neighbor].get('weight', 1.)
+    return cast(float, G[node][neighbor].get('weight', 1.))
 
 
 def lin_weighting(G, node, neighbor):
     # type: (Graph, Any, Any) -> float
     """A weight is the edge weight divided to the node degree."""
-    return G[node][neighbor].get('weight', 1.) / G.degree[neighbor]
+    return cast(float, G[node][neighbor].get('weight', 1.)) / cast(float, G.degree[neighbor])
 
 
 def log_weighting(G, node, neighbor):
     # type: (Graph, Any, Any) -> float
     """A weight is the edge weight divided to the log2 of node degree."""
-    return G[node][neighbor].get('weight', 1.) / log2(G.degree[neighbor] + 1)
+    return cast(float, G[node][neighbor].get('weight', 1.)) / log2(G.degree[neighbor] + 1)
 
 
 """Shortcuts for the node weighting functions."""
@@ -117,7 +117,7 @@ def random_argmax(items, choice_func=random.choice):
 
     keys = [k for k, v in items if v == maximum]
 
-    return choice_func(keys)
+    return cast('Optional[int]', choice_func(keys))
 
 
 def aggregate_clusters(G, label_key='label'):
