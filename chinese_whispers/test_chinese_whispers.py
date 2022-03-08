@@ -30,6 +30,10 @@ class TestChineseWhispers(unittest.TestCase):
     custom_label_key = "cluster_id"
 
     def setUp(self) -> None:
+        # networkx/networkx#5285
+        for _, _, data in self.G.edges(data=True):
+            data.clear()
+
         self.H = chinese_whispers(self.G.copy(), seed=self.SEED)
         self.H_with_label_key = chinese_whispers(self.G.copy(), seed=self.SEED, label_key=self.custom_label_key)
 
