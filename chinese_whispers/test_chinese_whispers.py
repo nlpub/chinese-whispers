@@ -27,7 +27,7 @@ class TestChineseWhispers(unittest.TestCase):
     SEED = 1337
 
     G = nx.karate_club_graph()
-    custom_label_key = "cluster_id"
+    custom_label_key = 'cluster_id'
 
     def setUp(self) -> None:
         # networkx/networkx#5285
