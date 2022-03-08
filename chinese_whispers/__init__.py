@@ -6,7 +6,7 @@ __license__ = 'MIT'
 from .chinese_whispers import (
     WEIGHTING,
     top_weighting,
-    lin_weighting,
+    linear_weighting,
     log_weighting,
     chinese_whispers,
     random_argmax,
@@ -14,9 +14,10 @@ from .chinese_whispers import (
 )
 
 __all__ = [
+    '__version__',
     'WEIGHTING',
     'top_weighting',
-    'lin_weighting',
+    'linear_weighting',
     'log_weighting',
     'chinese_whispers',
     'random_argmax',

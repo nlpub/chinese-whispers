@@ -1,19 +1,17 @@
 #!/usr/bin/env python3
 
-import sys
 import unittest
 from random import Random
-
-if sys.version_info[:2] >= (3, 5):
-    from typing import Tuple, Sequence
+from typing import Tuple, Sequence
 
 import networkx as nx
+from networkx.utils import edges_equal
 
 from .chinese_whispers import chinese_whispers, aggregate_clusters, random_argmax
 
 
 class TestRandomArgMax(unittest.TestCase):
-    EMPTY = []  # type: Sequence[Tuple[int, int]]
+    EMPTY: Sequence[Tuple[int, int]] = []
     ITEMS = [(1, 3), (2, 1), (3, 2), (4, 3)]
 
     def test_empty(self) -> None:
@@ -32,16 +30,16 @@ class TestChineseWhispers(unittest.TestCase):
     custom_label_key = "cluster_id"
 
     def setUp(self) -> None:
-        self.H = chinese_whispers(self.G, seed=self.SEED)
-        self.H_with_label_key = chinese_whispers(self.G, seed=self.SEED, label_key=self.custom_label_key)
+        self.H = chinese_whispers(self.G.copy(), seed=self.SEED)
+        self.H_with_label_key = chinese_whispers(self.G.copy(), seed=self.SEED, label_key=self.custom_label_key)
 
     def test_return(self) -> None:
-        self.assertEqual(self.G, self.H)
+        self.assertTrue(edges_equal(self.G.edges, self.H.edges))
 
     def test_labels(self) -> None:
         self.assertEqual(34, len(self.H.nodes))
 
-        self.assertEqual(self.G.nodes, self.H.nodes)
+        self.assertEqual(list(self.G), list(self.H))
 
         for node in self.H:
             self.assertIsNotNone(self.H.nodes[node]['label'])

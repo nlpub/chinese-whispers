@@ -1,43 +1,43 @@
 import random
-import sys
 from collections import defaultdict
 from math import log2
 from operator import itemgetter
-
-if sys.version_info[:2] >= (3, 5):
-    from typing import Any, Callable, Sequence, Tuple, ItemsView, Union, Dict, Optional, Set, cast
+from random import Random
+from typing import Any, Callable, Sequence, Tuple, ItemsView, Union, Dict, DefaultDict, Optional, Set, cast
 
 from networkx.classes import Graph
+from networkx.utils import create_py_random_state
 
 
-def top_weighting(G, node, neighbor):
-    # type: (Graph, Any, Any) -> float
+# noinspection PyPep8Naming
+def top_weighting(G: Graph, node: Any, neighbor: Any) -> float:
     """A weight is the edge weight."""
     return cast(float, G[node][neighbor].get('weight', 1.))
 
 
-def lin_weighting(G, node, neighbor):
-    # type: (Graph, Any, Any) -> float
+# noinspection PyPep8Naming
+def linear_weighting(G: Graph, node: Any, neighbor: Any) -> float:
     """A weight is the edge weight divided to the node degree."""
     return cast(float, G[node][neighbor].get('weight', 1.)) / cast(float, G.degree[neighbor])
 
 
-def log_weighting(G, node, neighbor):
-    # type: (Graph, Any, Any) -> float
+# noinspection PyPep8Naming
+def log_weighting(G: Graph, node: Any, neighbor: Any) -> float:
     """A weight is the edge weight divided to the log2 of node degree."""
     return cast(float, G[node][neighbor].get('weight', 1.)) / log2(G.degree[neighbor] + 1)
 
 
 """Shortcuts for the node weighting functions."""
-WEIGHTING = {
+WEIGHTING: Dict[str, Callable[[Graph, Any, Any], float]] = {
     'top': top_weighting,
-    'lin': lin_weighting,
+    'lin': linear_weighting,
     'log': log_weighting
-}  # type: Dict[str, Callable[[Graph, Any, Any], float]]
+}
 
 
-def chinese_whispers(G, weighting='top', iterations=20, seed=None, label_key='label'):
-    # type: (Graph, Union[str, Callable[[Graph, Any, Any], float]], int, Optional[int], str) -> Graph
+# noinspection PyPep8Naming
+def chinese_whispers(G: Graph, weighting: Union[str, Callable[[Graph, Any, Any], float]] = 'top', iterations: int = 20,
+                     seed: Optional[int] = None, label_key: str = 'label') -> Graph:
     """Perform clustering of nodes in a graph G using the 'weighting' method.
 
     Three weighing schemas are available:
@@ -53,18 +53,9 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None, label_key='la
 
     It is possible to specify the maximum number of iterations as well as the random seed to use."""
 
-    if isinstance(weighting, str):
-        weighting_func = WEIGHTING[weighting]
-    else:
-        weighting_func = weighting
+    weighting_func = WEIGHTING[weighting] if isinstance(weighting, str) else weighting
 
-    if seed:
-        rng = random.Random(seed)
-        shuffle_func = rng.shuffle
-        choice_func = rng.choice
-    else:
-        shuffle_func = random.shuffle
-        choice_func = random.choice
+    rng: Random = create_py_random_state(seed)
 
     for i, node in enumerate(G):
         G.nodes[node][label_key] = i + 1
@@ -74,14 +65,14 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None, label_key='la
     for i in range(iterations):
         changes = False
 
-        shuffle_func(nodes)
+        rng.shuffle(nodes)
 
         for node in nodes:
             previous = G.nodes[node][label_key]
 
             if G[node]:
                 scores = score(G, node, weighting_func, label_key)
-                G.nodes[node][label_key] = random_argmax(scores.items(), choice_func=choice_func)
+                G.nodes[node][label_key] = random_argmax(scores.items(), choice=rng.choice)
 
             changes = changes or previous != G.nodes[node][label_key]
 
@@ -91,11 +82,12 @@ def chinese_whispers(G, weighting='top', iterations=20, seed=None, label_key='la
     return G
 
 
-def score(G, node, weighting_func, label_key):
-    # type: (Graph, Any, Callable[[Graph, Any, Any], float], str) -> Dict[int, float]
+# noinspection PyPep8Naming
+def score(G: Graph, node: Any, weighting_func: Callable[[Graph, Any, Any], float],
+          label_key: str) -> DefaultDict[int, float]:
     """Compute label scores in the given node neighborhood."""
 
-    scores = defaultdict(float)  # type: Dict[int, float]
+    scores: DefaultDict[int, float] = defaultdict(float)
 
     if node not in G:
         return scores
@@ -106,8 +98,8 @@ def score(G, node, weighting_func, label_key):
     return scores
 
 
-def random_argmax(items, choice_func=random.choice):
-    # type: (Union[Sequence[Tuple[Any, float]], ItemsView[Any, float]], Callable[[Sequence[Any]], Any]) -> Optional[int]
+def random_argmax(items: Union[Sequence[Tuple[Any, float]], ItemsView[Any, float]],
+                  choice: Callable[[Sequence[Any]], Any] = random.choice) -> Optional[int]:
     """An argmax function that breaks the ties randomly."""
     if not items:
         # https://github.com/python/mypy/issues/1003
@@ -117,14 +109,14 @@ def random_argmax(items, choice_func=random.choice):
 
     keys = [k for k, v in items if v == maximum]
 
-    return cast('Optional[int]', choice_func(keys))
+    return cast('Optional[int]', choice(keys))
 
 
-def aggregate_clusters(G, label_key='label'):
-    # type: (Graph, str) -> Dict[int, Set[Any]]
+# noinspection PyPep8Naming
+def aggregate_clusters(G: Graph, label_key: str = 'label') -> Dict[int, Set[Any]]:
     """Produce a dictionary with the keys being cluster IDs and the values being sets of cluster elements."""
 
-    clusters = {}  # type: Dict[int, Set[Any]]
+    clusters: Dict[int, Set[Any]] = {}
 
     for node in G:
         label = G.nodes[node][label_key]
