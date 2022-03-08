@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9, '3.10']
+        python-version: ['3.7', '3.8', '3.9', '3.10']
 
     steps:
     - uses: actions/checkout@v3
@@ -44,22 +44,11 @@ jobs:
         jupyter nbconvert --to html --output jupyter/index.html --execute example.ipynb
     - name: Build
       run: python3 -m build --sdist --wheel .
+    - name: Validate CITATION.cff
+      run: cffconvert --validate
     - name: Upload Pages
       uses: peaceiris/actions-gh-pages@v3.8.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./jupyter
-      if: matrix.python-version == '3.9' && github.ref == 'refs/heads/master'
-  cff:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ruby
-    - name: Install cff
-      run: gem install cff
-    - name: Validate CITATION.cff
-      run: ruby -rcff -e 'CFF::File.validate!("CITATION.cff")'
+      if: matrix.python-version == '3.10' && github.ref == 'refs/heads/master'
