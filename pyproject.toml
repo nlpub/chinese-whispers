@@ -1,3 +1,46 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "chinese_whispers"
+authors = [{name = "Dmitry Ustalov"}]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Typing :: Typed",
+]
+license = {text = "MIT"}
+description = "An implementation of the Chinese Whispers clustering algorithm."
+keywords = ["graph clustering", "unsupervised learning", "chinese whispers", "cluster analysis"]
+requires-python = "~=3.7"
+dependencies = ["networkx >= 2.1,<3.0"]
+dynamic = ["version"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.urls]
+Homepage = "https://github.com/nlpub/chinese-whispers-python"
+
+[project.scripts]
+chinese-whispers = "chinese_whispers.__main__:main"
+
+[tool.setuptools]
+zip-safe = true
+
+[tool.setuptools.packages.find]
+include = ["chinese_whispers*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "chinese_whispers.__version__"}
+
+[tool.mypy]
+ignore_missing_imports = true
+strict = true
