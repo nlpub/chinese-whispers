@@ -13,14 +13,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.8'
+        python-version: "3.8"
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
         pip install pipenv
-        pipenv install --python "${{ matrix.python-version }}" --dev --system --skip-lock
+        pipenv install --python "3.8" --dev --system --skip-lock
     - name: Create release
-      id: create_release
       uses: actions/create-release@v1.1.4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -30,9 +29,9 @@ jobs:
         draft: false
         prerelease: false
     - name: Build and publish
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python3 -m build --sdist --wheel .
-        twine upload dist/*
+      run: python3 -m build --sdist --wheel .
+    - name: Publish
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: ${{ secrets.PYPI_USERNAME }}
+        password: ${{ secrets.PYPI_PASSWORD }}
