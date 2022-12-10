@@ -28,7 +28,7 @@ jobs:
         release_name: Chinese Whispers ${{ github.ref }}
         draft: false
         prerelease: false
-    - name: Build and publish
+    - name: Build
       run: python3 -m build --sdist --wheel .
     - name: Publish
       uses: pypa/gh-action-pypi-publish@release/v1
