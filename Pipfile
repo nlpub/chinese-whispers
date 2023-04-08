@@ -7,9 +7,4 @@ name = "pypi"
 chinese-whispers = {editable = true, path = "."}
 
 [dev-packages]
-mypy = "*"
-notebook = "*"
-matplotlib = "*"
-flake8 = "*"
-twine = "*"
-build = "*"
+chinese-whispers = {editable = true, path = ".", extras = "dev"}
