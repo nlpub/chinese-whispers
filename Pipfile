@@ -7,4 +7,4 @@ name = "pypi"
 chinese-whispers = {editable = true, path = "."}
 
 [dev-packages]
-chinese-whispers = {editable = true, path = ".", extras = "dev"}
+chinese-whispers = {editable = true, path = ".", extras = ["dev"]}
