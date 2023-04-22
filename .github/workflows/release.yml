@@ -1,9 +1,8 @@
 name: Publish to PyPI
 
 on:
-  push:
-    tags:
-      - '*'
+  release:
+    types: [ published ]
 
 jobs:
   deploy:
@@ -21,15 +20,6 @@ jobs:
         python3 -m pip install --upgrade pip
         pip install pipenv
         pipenv install --python "3.8" --dev --system --skip-lock
-    - name: Create release
-      uses: actions/create-release@v1.1.4
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Chinese Whispers ${{ github.ref }}
-        draft: false
-        prerelease: false
     - name: Build
       run: python3 -m build --sdist --wheel .
     - name: Publish

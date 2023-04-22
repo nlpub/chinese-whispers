@@ -1,4 +1,4 @@
-__version__ = '0.8.2.pre0'
+__version__ = '0.8.2.pre1'
 __author__ = 'Dmitry Ustalov'
 __credits__ = ['Alexander Panchenko', 'Alexander Chambers', 'Frederik Wille']
 __license__ = 'MIT'
