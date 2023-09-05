@@ -4,7 +4,7 @@ Chinese Whispers
 An implementation of the Chinese Whispers clustering algorithm.
 """
 
-__version__ = '0.8.2.post1'
+__version__ = '0.8.2.post2'
 __author__ = 'Dmitry Ustalov'
 __credits__ = ['Alexander Panchenko', 'Alexander Chambers', 'Frederik Wille']
 __copyright = 'Copyright 2018-2023 Dmitry Ustalov'
