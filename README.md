@@ -13,6 +13,12 @@ This is an implementation of the [Chinese Whispers](https://doi.org/10.3115/1654
 [conda_badge]: https://img.shields.io/conda/vn/conda-forge/chinese-whispers.svg
 [conda_link]: https://anaconda.org/conda-forge/chinese-whispers
 
+## Installation
+
+- [pip](https://pip.pypa.io/): `pip install chinsese_whispers`
+- [Anaconda](https://docs.conda.io/en/latest/): `conda install -c conda-forge chinese-whispers`
+- [Mamba](https://mamba.readthedocs.io/): `mamba install -c conda-forge chinese-whispers`
+
 ## Usage
 
 Given a NetworkX graph `G`, this library can [cluster](https://en.wikipedia.org/wiki/Cluster_analysis) it using the following code:

@@ -2,6 +2,12 @@
 
 This is an implementation of the [Chinese Whispers](https://doi.org/10.3115/1654758.1654774) clustering algorithm in Python. Since this library is based on [NetworkX](https://networkx.github.io/), it is simple to use.
 
+## Installation
+
+- [pip](https://pip.pypa.io/): `pip install chinsese_whispers`
+- [Anaconda](https://docs.conda.io/en/latest/): `conda install -c conda-forge chinese-whispers`
+- [Mamba](https://mamba.readthedocs.io/): `mamba install -c conda-forge chinese-whispers`
+
 ## Usage
 
 Given a NetworkX graph `G`, this library can [cluster](https://en.wikipedia.org/wiki/Cluster_analysis) it using the following code:
