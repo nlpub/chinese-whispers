@@ -4,7 +4,7 @@ This is an implementation of the [Chinese Whispers](https://doi.org/10.3115/1654
 
 ## Installation
 
-- [pip](https://pip.pypa.io/): `pip install chinsese_whispers`
+- [pip](https://pip.pypa.io/): `pip install chinese_whispers`
 - [Anaconda](https://docs.conda.io/en/latest/): `conda install -c conda-forge chinese-whispers`
 - [Mamba](https://mamba.readthedocs.io/): `mamba install -c conda-forge chinese-whispers`
 
