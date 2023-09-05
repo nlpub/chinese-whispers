@@ -32,7 +32,8 @@ dev = [
     "build"
 ]
 docs = [
-    "sphinx-autoapi"
+    "mkdocs-material",
+    "mkdocstrings-python"
 ]
 
 [project.readme]

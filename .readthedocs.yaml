@@ -3,8 +3,8 @@ build:
    os: ubuntu-22.04
    tools:
      python: "3.11"
-sphinx:
-   configuration: docs/conf.py
+mkdocs:
+  configuration: mkdocs.yml
 python:
    install:
      - method: pip

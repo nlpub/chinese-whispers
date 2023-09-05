@@ -1,3 +1,7 @@
+"""
+This is an implementation of the Chinese Whispers clustering algorithm.
+"""
+
 import random
 from collections import defaultdict
 from math import log2
@@ -11,19 +15,57 @@ from networkx.utils import create_py_random_state
 
 # noinspection PyPep8Naming
 def top_weighting(G: Graph, node: Any, neighbor: Any) -> float:
-    """A weight is the edge weight."""
+    """
+    Return the weight of an edge between two nodes.
+
+    This function calculates the weight of an edge between two nodes in a graph.
+    The weight is determined by the 'weight' attribute of the edge.
+    If the 'weight' attribute is not present, a default weight of 1.0 is assumed.
+
+    Parameters:
+        G (Graph): The graph containing the edge.
+        node (Any): The source node of the edge.
+        neighbor (Any): The target node of the edge.
+
+    Returns:
+        float: The weight of the edge.
+    """
     return cast(float, G[node][neighbor].get('weight', 1.))
 
 
 # noinspection PyPep8Naming
 def linear_weighting(G: Graph, node: Any, neighbor: Any) -> float:
-    """A weight is the edge weight divided to the node degree."""
+    """
+    Calculates the weight of an edge between two nodes in a graph using linear weighting,
+    which is the edge weight divided by the degree of the destination node.
+    If the 'weight' attribute is not present, a default weight of 1.0 is assumed.
+
+    Parameters:
+        G (Graph): The graph that contains the nodes and edges.
+        node (Any): The source node of the edge.
+        neighbor (Any): The destination node of the edge.
+
+    Returns:
+        float: The weight of the edge.
+    """
     return cast(float, G[node][neighbor].get('weight', 1.)) / cast(float, G.degree[neighbor])
 
 
 # noinspection PyPep8Naming
 def log_weighting(G: Graph, node: Any, neighbor: Any) -> float:
-    """A weight is the edge weight divided to the log2 of node degree."""
+    """
+    Calculates the weight of an edge between two nodes in a graph using logarithm weighting,
+    which is the edge weight divided by the logarithm of the degree of the destination node.
+    If the 'weight' attribute is not present, a default weight of 1.0 is assumed.
+
+    Parameters:
+        G (Graph): The graph that contains the nodes and edges.
+        node (Any): The source node of the edge.
+        neighbor (Any): The destination node of the edge.
+
+    Returns:
+        float: The weight of the edge.
+    """
     return cast(float, G[node][neighbor].get('weight', 1.)) / log2(G.degree[neighbor] + 1)
 
 
@@ -38,20 +80,29 @@ WEIGHTING: Dict[str, Callable[[Graph, Any, Any], float]] = {
 # noinspection PyPep8Naming
 def chinese_whispers(G: Graph, weighting: Union[str, Callable[[Graph, Any, Any], float]] = 'top', iterations: int = 20,
                      seed: Optional[int] = None, label_key: str = 'label') -> Graph:
-    """Perform clustering of nodes in a graph G using the 'weighting' method.
+    """
+    Perform clustering of nodes in a graph using the 'weighting' method.
+
+    Parameters:
+        G (Graph): The input graph.
+        weighting (Union[str, Callable[[Graph, Any, Any], float]], optional): The weighing method to use.
+            It can be either a string specifying one of the three available schemas ('top', 'lin', 'log'),
+            or a custom weighting function. Defaults to 'top'.
+        iterations (int, optional): The maximum number of iterations to perform. Defaults to 20.
+        seed (Optional[int], optional): The random seed to use. Defaults to None.
+        label_key (str, optional): The key to store the cluster labels in the graph nodes. Defaults to 'label'.
+
+    Returns:
+        Graph: The input graph with cluster labels assigned to nodes.
 
     Three weighing schemas are available:
 
-    top
-      Just use the edge weights from the input graph.
+    - top: Just use the edge weights from the input graph.
+    - lin: Normalize an edge weight by the degree of the related node.
+    - log: Normalize an edge weight by the logarithm of the related node degree.
 
-    lin
-      Normalize an edge weight by the degree of the related node.
-
-    log
-      Normalize an edge weight by the logarithm of the related node degree.
-
-    It is possible to specify the maximum number of iterations as well as the random seed to use."""
+    It is possible to specify the maximum number of iterations as well as the random seed to use.
+    """
 
     weighting_func = WEIGHTING[weighting] if isinstance(weighting, str) else weighting
 
@@ -85,7 +136,18 @@ def chinese_whispers(G: Graph, weighting: Union[str, Callable[[Graph, Any, Any],
 # noinspection PyPep8Naming
 def score(G: Graph, node: Any, weighting_func: Callable[[Graph, Any, Any], float],
           label_key: str) -> DefaultDict[int, float]:
-    """Compute label scores in the given node neighborhood."""
+    """
+    Compute label scores in the given node neighborhood.
+
+    Parameters:
+        G (Graph): The input graph.
+        node (Any): The node in the graph.
+        weighting_func (Callable[[Graph, Any, Any], float]): A function to calculate the weight between two nodes.
+        label_key (str): The key to access the label value for each node in the graph.
+
+    Returns:
+        DefaultDict[int, float]: A defaultdict with label scores as values.
+    """
 
     scores: DefaultDict[int, float] = defaultdict(float)
 
@@ -100,7 +162,22 @@ def score(G: Graph, node: Any, weighting_func: Callable[[Graph, Any, Any], float
 
 def random_argmax(items: Union[Sequence[Tuple[Any, float]], ItemsView[Any, float]],
                   choice: Callable[[Sequence[Any]], Any] = random.choice) -> Optional[int]:
-    """An argmax function that breaks the ties randomly."""
+    """
+    An argmax function that breaks the ties randomly.
+
+    Args:
+        items (Union[Sequence[Tuple[Any, float]], ItemsView[Any, float]]): A sequence of tuples
+            or an ItemsView object containing items and their corresponding float values.
+        choice (Callable[[Sequence[Any]], Any], optional): A callable function that takes in a sequence
+            of items and returns one of them. Defaults to random.choice.
+
+    Returns:
+        Optional[int]: An optional integer representing the index of the maximum item. If the 'items' argument
+            is empty, None will be returned.
+
+    Raises:
+        TypeError: If the 'items' argument is neither a sequence of tuples nor an ItemsView object.
+    """
     if not items:
         # https://github.com/python/mypy/issues/1003
         return None
@@ -114,7 +191,17 @@ def random_argmax(items: Union[Sequence[Tuple[Any, float]], ItemsView[Any, float
 
 # noinspection PyPep8Naming
 def aggregate_clusters(G: Graph, label_key: str = 'label') -> Dict[int, Set[Any]]:
-    """Produce a dictionary with the keys being cluster IDs and the values being sets of cluster elements."""
+    """
+    Produce a dictionary with the keys being cluster IDs and the values being sets of cluster elements.
+
+    Parameters:
+        G (Graph): The graph object containing the clusters.
+        label_key (str, optional): The attribute key used to identify the clusters. Defaults to 'label'.
+
+    Returns:
+        Dict[int, Set[Any]]: A dictionary where the keys represent cluster IDs
+            and the values are sets of cluster elements.
+    """
 
     clusters: Dict[int, Set[Any]] = {}
 
