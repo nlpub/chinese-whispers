@@ -40,7 +40,7 @@ jobs:
         mkdir jupyter
         jupyter nbconvert --to html --output jupyter/index.html --execute example.ipynb
     - name: Run MkDocs
-      run: mkdocs build
+      run: mkdocs build --strict
     - name: Build
       run: python3 -m build --sdist --wheel .
     - name: Validate CITATION.cff
