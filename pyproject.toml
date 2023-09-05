@@ -42,6 +42,9 @@ content-type = "text/markdown"
 
 [project.urls]
 Homepage = "https://github.com/nlpub/chinese-whispers-python"
+Documentation = "https://chinese-whispers.readthedocs.io"
+Download = "https://pypi.org/project/chinese-whispers/#files"
+Repository = "https://github.com/nlpub/chinese-whispers-python"
 
 [project.scripts]
 chinese-whispers = "chinese_whispers.__main__:main"
