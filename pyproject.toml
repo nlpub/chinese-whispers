@@ -32,7 +32,8 @@ dev = [
     "build"
 ]
 docs = [
-    "sphinx-autoapi"
+    "sphinx-autoapi",
+    "sphinx_rtd_theme"
 ]
 
 [project.readme]
