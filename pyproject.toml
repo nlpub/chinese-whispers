@@ -31,6 +31,9 @@ dev = [
     "twine",
     "build"
 ]
+docs = [
+    "sphinx-autoapi"
+]
 
 [project.readme]
 file = "README.md"
