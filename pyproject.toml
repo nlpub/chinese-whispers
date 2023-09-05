@@ -12,6 +12,10 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Topic :: Scientific/Engineering :: Information Analysis",
     "Typing :: Typed",
 ]
@@ -41,10 +45,10 @@ file = "README.md"
 content-type = "text/markdown"
 
 [project.urls]
-Homepage = "https://github.com/nlpub/chinese-whispers-python"
+Homepage = "https://github.com/nlpub/chinese-whispers"
 Documentation = "https://chinese-whispers.readthedocs.io"
 Download = "https://pypi.org/project/chinese-whispers/#files"
-Repository = "https://github.com/nlpub/chinese-whispers-python"
+Repository = "https://github.com/nlpub/chinese-whispers"
 
 [project.scripts]
 chinese-whispers = "chinese_whispers.__main__:main"

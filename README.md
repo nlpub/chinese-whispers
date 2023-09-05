@@ -4,8 +4,8 @@ This is an implementation of the [Chinese Whispers](https://doi.org/10.3115/1654
 
 [![Unit Tests][github_tests_badge]][github_tests_link] [![Read the Docs][rtfd_badge]][rtfd_link] [![PyPI Version][pypi_badge]][pypi_link] [![Conda Version][conda_badge]][conda_link]
 
-[github_tests_badge]: https://github.com/nlpub/chinese-whispers-python/workflows/Unit%20Tests/badge.svg?branch=master
-[github_tests_link]: https://github.com/nlpub/chinese-whispers-python/actions?query=workflow%3A%22Unit+Tests%22
+[github_tests_badge]: https://github.com/nlpub/chinese-whispers/workflows/Unit%20Tests/badge.svg?branch=master
+[github_tests_link]: https://github.com/nlpub/chinese-whispers/actions?query=workflow%3A%22Unit+Tests%22
 [rtfd_badge]: https://readthedocs.org/projects/chinese-whispers/badge/
 [rtfd_link]: https://chinese-whispers.readthedocs.io/
 [pypi_badge]: https://badge.fury.io/py/chinese-whispers.svg
@@ -43,7 +43,7 @@ chinese-whispers karate_club.tsv
 python3 -mchinese_whispers karate_club.tsv
 ```
 
-A more complete usage example is available in the [example notebook](https://github.com/nlpub/chinese-whispers-python/blob/master/example.ipynb) and at <https://nlpub.github.io/chinese-whispers-python/>.
+A more complete usage example is available in the [example notebook](https://github.com/nlpub/chinese-whispers/blob/master/example.ipynb) and at <https://nlpub.github.io/chinese-whispers/>.
 
 In case you require higher performance, please consider our Java implementation that also includes other graph clustering algorithms: <https://github.com/nlpub/watset-java>.
 

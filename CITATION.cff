@@ -7,7 +7,7 @@ authors:
 title: Chinese Whispers for Python
 license: MIT
 repository-artifact: https://pypi.org/project/chinese-whispers/
-repository-code: https://github.com/nlpub/chinese-whispers-python
+repository-code: https://github.com/nlpub/chinese-whispers
 preferred-citation:
   type: article
   authors:
