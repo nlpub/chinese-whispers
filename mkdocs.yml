@@ -10,3 +10,7 @@ plugins:
 - search
 - mkdocstrings:
     default_handler: python
+    handlers:
+      python:
+        import:
+        - https://networkx.org/documentation/stable/objects.inv

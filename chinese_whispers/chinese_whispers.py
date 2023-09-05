@@ -23,12 +23,12 @@ def top_weighting(G: Graph, node: Any, neighbor: Any) -> float:
     If the 'weight' attribute is not present, a default weight of 1.0 is assumed.
 
     Parameters:
-        G (Graph): The graph containing the edge.
-        node (Any): The source node of the edge.
-        neighbor (Any): The target node of the edge.
+        G: The graph containing the edge.
+        node: The source node of the edge.
+        neighbor: The target node of the edge.
 
     Returns:
-        float: The weight of the edge.
+        The weight of the edge.
     """
     return cast(float, G[node][neighbor].get('weight', 1.))
 
@@ -41,12 +41,12 @@ def linear_weighting(G: Graph, node: Any, neighbor: Any) -> float:
     If the 'weight' attribute is not present, a default weight of 1.0 is assumed.
 
     Parameters:
-        G (Graph): The graph that contains the nodes and edges.
-        node (Any): The source node of the edge.
-        neighbor (Any): The destination node of the edge.
+        G: The graph that contains the nodes and edges.
+        node: The source node of the edge.
+        neighbor: The destination node of the edge.
 
     Returns:
-        float: The weight of the edge.
+        The weight of the edge.
     """
     return cast(float, G[node][neighbor].get('weight', 1.)) / cast(float, G.degree[neighbor])
 
@@ -59,12 +59,12 @@ def log_weighting(G: Graph, node: Any, neighbor: Any) -> float:
     If the 'weight' attribute is not present, a default weight of 1.0 is assumed.
 
     Parameters:
-        G (Graph): The graph that contains the nodes and edges.
-        node (Any): The source node of the edge.
-        neighbor (Any): The destination node of the edge.
+        G: The graph that contains the nodes and edges.
+        node: The source node of the edge.
+        neighbor: The destination node of the edge.
 
     Returns:
-        float: The weight of the edge.
+        The weight of the edge.
     """
     return cast(float, G[node][neighbor].get('weight', 1.)) / log2(G.degree[neighbor] + 1)
 
@@ -84,22 +84,22 @@ def chinese_whispers(G: Graph, weighting: Union[str, Callable[[Graph, Any, Any],
     Perform clustering of nodes in a graph using the 'weighting' method.
 
     Parameters:
-        G (Graph): The input graph.
-        weighting (Union[str, Callable[[Graph, Any, Any], float]], optional): The weighing method to use.
+        G: The input graph.
+        weighting: The weighing method to use.
             It can be either a string specifying one of the three available schemas ('top', 'lin', 'log'),
             or a custom weighting function. Defaults to 'top'.
-        iterations (int, optional): The maximum number of iterations to perform. Defaults to 20.
-        seed (Optional[int], optional): The random seed to use. Defaults to None.
-        label_key (str, optional): The key to store the cluster labels in the graph nodes. Defaults to 'label'.
+        iterations: The maximum number of iterations to perform. Defaults to 20.
+        seed: The random seed to use. Defaults to None.
+        label_key: The key to store the cluster labels in the graph nodes. Defaults to 'label'.
 
     Returns:
-        Graph: The input graph with cluster labels assigned to nodes.
+        The input graph with cluster labels assigned to nodes.
 
     Three weighing schemas are available:
 
-    - top: Just use the edge weights from the input graph.
-    - lin: Normalize an edge weight by the degree of the related node.
-    - log: Normalize an edge weight by the logarithm of the related node degree.
+    - `top`: Just use the edge weights from the input graph.
+    - `lin`: Normalize an edge weight by the degree of the related node.
+    - `log`: Normalize an edge weight by the logarithm of the related node degree.
 
     It is possible to specify the maximum number of iterations as well as the random seed to use.
     """
@@ -140,13 +140,13 @@ def score(G: Graph, node: Any, weighting_func: Callable[[Graph, Any, Any], float
     Compute label scores in the given node neighborhood.
 
     Parameters:
-        G (Graph): The input graph.
-        node (Any): The node in the graph.
-        weighting_func (Callable[[Graph, Any, Any], float]): A function to calculate the weight between two nodes.
-        label_key (str): The key to access the label value for each node in the graph.
+        G: The input graph.
+        node: The node in the graph.
+        weighting_func: A function to calculate the weight between two nodes.
+        label_key: The key to access the label value for each node in the graph.
 
     Returns:
-        DefaultDict[int, float]: A defaultdict with label scores as values.
+        A dictionary with label scores as values.
     """
 
     scores: DefaultDict[int, float] = defaultdict(float)
@@ -166,17 +166,11 @@ def random_argmax(items: Union[Sequence[Tuple[Any, float]], ItemsView[Any, float
     An argmax function that breaks the ties randomly.
 
     Args:
-        items (Union[Sequence[Tuple[Any, float]], ItemsView[Any, float]]): A sequence of tuples
-            or an ItemsView object containing items and their corresponding float values.
-        choice (Callable[[Sequence[Any]], Any], optional): A callable function that takes in a sequence
-            of items and returns one of them. Defaults to random.choice.
+        items: A sequence of items with their corresponding weights.
+        choice: A callable function that takes in a sequence of items and returns one of them.
 
     Returns:
-        Optional[int]: An optional integer representing the index of the maximum item. If the 'items' argument
-            is empty, None will be returned.
-
-    Raises:
-        TypeError: If the 'items' argument is neither a sequence of tuples nor an ItemsView object.
+        An optional integer representing the index of the maximum item, if exists.
     """
     if not items:
         # https://github.com/python/mypy/issues/1003
@@ -195,12 +189,11 @@ def aggregate_clusters(G: Graph, label_key: str = 'label') -> Dict[int, Set[Any]
     Produce a dictionary with the keys being cluster IDs and the values being sets of cluster elements.
 
     Parameters:
-        G (Graph): The graph object containing the clusters.
-        label_key (str, optional): The attribute key used to identify the clusters. Defaults to 'label'.
+        G: The graph object containing the clusters.
+        label_key: The attribute key used to identify the clusters. Defaults to 'label'.
 
     Returns:
-        Dict[int, Set[Any]]: A dictionary where the keys represent cluster IDs
-            and the values are sets of cluster elements.
+        A dictionary where the keys represent cluster IDs and the values are sets of cluster elements.
     """
 
     clusters: Dict[int, Set[Any]] = {}

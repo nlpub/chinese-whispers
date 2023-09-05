@@ -10,7 +10,7 @@ This is an implementation of the [Chinese Whispers](https://doi.org/10.3115/1654
 
 ## Usage
 
-Given a NetworkX graph `G`, this library can [cluster](https://en.wikipedia.org/wiki/Cluster_analysis) it using the following code:
+Given a [networkx.Graph][] `G`, this library can [cluster](https://en.wikipedia.org/wiki/Cluster_analysis) it using the following code:
 
 ```python
 from chinese_whispers import chinese_whispers
