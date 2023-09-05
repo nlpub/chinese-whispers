@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
-        pip install pipenv
+        pip install pipenv==2023.7.23
         pipenv install --python "3.11" --dev --system --skip-lock
     - name: Build
       run: python3 -m build --sdist --wheel .
