@@ -14,12 +14,12 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: "3.11"
+        python-version: "3.12"
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
         pip install pipenv
-        pipenv install --python "3.11" --dev --system --skip-lock
+        pipenv install --python "3.12" --dev --system --skip-lock
     - name: Build
       run: python3 -m build --sdist --wheel .
     - name: Publish
