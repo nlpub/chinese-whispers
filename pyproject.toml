@@ -34,9 +34,9 @@ dev = [
     "mypy",
     "notebook",
     "matplotlib",
-    "flake8",
     "twine",
-    "build"
+    "build",
+    "ruff"
 ]
 docs = [
     "mkdocs-material",
