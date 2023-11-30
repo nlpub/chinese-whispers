@@ -8,3 +8,6 @@ chinese-whispers = {editable = true, path = "."}
 
 [dev-packages]
 chinese-whispers = {editable = true, path = ".", extras = ["dev", "docs"]}
+
+[requires]
+python_version = "3"
