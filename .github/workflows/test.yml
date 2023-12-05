@@ -64,6 +64,7 @@ jobs:
         path: "./jupyter"
       if: matrix.python-version == '3.12' && github.ref == 'refs/heads/master'
   deploy:
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
