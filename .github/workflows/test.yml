@@ -7,9 +7,9 @@ on:
     branches: [ master ]
 
 permissions:
-  contents: read
-  pages: write
+  actions: read
   id-token: write
+  pages: write
 
 concurrency:
   group: pages
