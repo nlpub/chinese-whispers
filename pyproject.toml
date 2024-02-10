@@ -32,12 +32,13 @@ dynamic = ["version"]
 
 [project.optional-dependencies]
 dev = [
+    "build",
+    "matplotlib",
     "mypy",
     "notebook",
-    "matplotlib",
+    "ruff",
     "twine",
-    "build",
-    "ruff"
+    "types-networkx"
 ]
 docs = [
     "mkdocs-material",
