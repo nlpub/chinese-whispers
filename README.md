@@ -69,4 +69,4 @@ In case you require higher performance, please consider our Java implementation 
 
 ## Copyright
 
-Copyright (c) 2018&ndash;2023 [Dmitry Ustalov](https://github.com/dustalov). See [LICENSE](LICENSE) for details.
+Copyright (c) 2018&ndash;2024 [Dmitry Ustalov](https://github.com/dustalov). See [LICENSE](LICENSE) for details.

@@ -17,7 +17,7 @@ from .chinese_whispers import (
 __version__ = '0.8.2.post2'
 __author__ = 'Dmitry Ustalov'
 __credits__ = ['Alexander Panchenko', 'Alexander Chambers', 'Frederik Wille']
-__copyright = 'Copyright 2018-2023 Dmitry Ustalov'
+__copyright = 'Copyright 2018-2024 Dmitry Ustalov'
 __license__ = 'MIT'
 
 __all__ = [
