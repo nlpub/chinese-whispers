@@ -6,12 +6,21 @@ import random
 from collections import defaultdict
 from math import log2
 from operator import itemgetter
-from typing import TypeVar, Callable, Sequence, Union, Dict, DefaultDict, Optional, Set, cast, ItemsView
+from typing import TypeVar, Callable, Sequence, Union, Dict, DefaultDict, Optional, Set, cast, ItemsView, TypedDict
 
 from networkx.classes import Graph
 from networkx.utils import create_py_random_state
 
 T = TypeVar('T')
+
+
+class WeightDict(TypedDict):
+    """A dictionary-like class that stores weights for nodes.
+
+    Parameters:
+        weight: The weight value associated with a key.
+    """
+    weight: float
 
 
 # noinspection PyPep8Naming
@@ -31,7 +40,7 @@ def top_weighting(G: 'Graph[T]', node: T, neighbor: T) -> float:
     Returns:
         The weight of the edge.
     """
-    return cast(float, G[node][neighbor].get('weight', 1.))  # type: ignore[arg-type]
+    return cast(WeightDict, G[node][neighbor]).get('weight', 1.)
 
 
 # noinspection PyPep8Naming
@@ -49,7 +58,7 @@ def linear_weighting(G: 'Graph[T]', node: T, neighbor: T) -> float:
     Returns:
         The weight of the edge.
     """
-    return cast(float, G[node][neighbor].get('weight', 1.)) / G.degree[neighbor]  # type: ignore[arg-type]
+    return cast(WeightDict, G[node][neighbor]).get('weight', 1.) / G.degree[neighbor]
 
 
 # noinspection PyPep8Naming
@@ -67,7 +76,7 @@ def log_weighting(G: 'Graph[T]', node: T, neighbor: T) -> float:
     Returns:
         The weight of the edge.
     """
-    return cast(float, G[node][neighbor].get('weight', 1.)) / log2(G.degree[neighbor] + 1)  # type: ignore[arg-type]
+    return cast(WeightDict, G[node][neighbor]).get('weight', 1.) / log2(G.degree[neighbor] + 1)
 
 
 """Shortcuts for the node weighting functions."""
