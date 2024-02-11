@@ -71,3 +71,11 @@ version = {attr = "chinese_whispers.__version__"}
 [tool.mypy]
 ignore_missing_imports = true
 strict = true
+
+[tool.nbqa.addopts]
+mypy = [
+    "--disable-error-code=attr-defined"
+]
+ruff = [
+    "--ignore=E402"
+]

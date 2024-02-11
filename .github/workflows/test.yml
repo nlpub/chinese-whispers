@@ -47,9 +47,9 @@ jobs:
     - name: Run CLI
       run: chinese-whispers karate_club.tsv
     - name: Lint Jupyter with Mypy
-      run: nbqa mypy --disable-error-code=attr-defined *.ipynb
+      run: nbqa mypy *.ipynb
     - name: Lint Jupyter with Ruff
-      run: nbqa ruff --ignore=E402 *.ipynb
+      run: nbqa ruff *.ipynb
     - name: Run Jupyter
       run: |
         mkdir jupyter
