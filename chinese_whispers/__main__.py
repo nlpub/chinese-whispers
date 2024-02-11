@@ -21,7 +21,12 @@ def main() -> None:
     lines = (line.rstrip() for line in args.edges)
 
     # noinspection PyPep8Naming
-    G = nx.parse_edgelist(lines, delimiter=args.delimiter, comments='\n', data=[('weight', float)])
+    G = nx.parse_edgelist(  # type: ignore[call-overload]
+        lines,
+        delimiter=args.delimiter,
+        comments='\n',
+        data=(("weight", float),)
+    )
 
     chinese_whispers(G, args.weighting, args.iterations, args.seed)
 

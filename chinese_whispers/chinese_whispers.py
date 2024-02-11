@@ -6,15 +6,16 @@ import random
 from collections import defaultdict
 from math import log2
 from operator import itemgetter
-from random import Random
-from typing import Any, Callable, Sequence, Tuple, ItemsView, Union, Dict, DefaultDict, Optional, Set, cast
+from typing import TypeVar, Callable, Sequence, Union, Dict, DefaultDict, Optional, Set, cast, ItemsView
 
 from networkx.classes import Graph
 from networkx.utils import create_py_random_state
 
+T = TypeVar('T')
+
 
 # noinspection PyPep8Naming
-def top_weighting(G: Graph, node: Any, neighbor: Any) -> float:
+def top_weighting(G: 'Graph[T]', node: T, neighbor: T) -> float:
     """
     Return the weight of an edge between two nodes.
 
@@ -30,11 +31,11 @@ def top_weighting(G: Graph, node: Any, neighbor: Any) -> float:
     Returns:
         The weight of the edge.
     """
-    return cast(float, G[node][neighbor].get('weight', 1.))
+    return cast(float, G[node][neighbor].get('weight', 1.))  # type: ignore[arg-type]
 
 
 # noinspection PyPep8Naming
-def linear_weighting(G: Graph, node: Any, neighbor: Any) -> float:
+def linear_weighting(G: 'Graph[T]', node: T, neighbor: T) -> float:
     """
     Calculates the weight of an edge between two nodes in a graph using linear weighting,
     which is the edge weight divided by the degree of the destination node.
@@ -48,11 +49,11 @@ def linear_weighting(G: Graph, node: Any, neighbor: Any) -> float:
     Returns:
         The weight of the edge.
     """
-    return cast(float, G[node][neighbor].get('weight', 1.)) / cast(float, G.degree[neighbor])
+    return cast(float, G[node][neighbor].get('weight', 1.)) / G.degree[neighbor]  # type: ignore[arg-type]
 
 
 # noinspection PyPep8Naming
-def log_weighting(G: Graph, node: Any, neighbor: Any) -> float:
+def log_weighting(G: 'Graph[T]', node: T, neighbor: T) -> float:
     """
     Calculates the weight of an edge between two nodes in a graph using logarithm weighting,
     which is the edge weight divided by the logarithm of the degree of the destination node.
@@ -66,20 +67,45 @@ def log_weighting(G: Graph, node: Any, neighbor: Any) -> float:
     Returns:
         The weight of the edge.
     """
-    return cast(float, G[node][neighbor].get('weight', 1.)) / log2(G.degree[neighbor] + 1)
+    return cast(float, G[node][neighbor].get('weight', 1.)) / log2(G.degree[neighbor] + 1)  # type: ignore[arg-type]
 
 
 """Shortcuts for the node weighting functions."""
-WEIGHTING: Dict[str, Callable[[Graph, Any, Any], float]] = {
+WEIGHTING: Dict[str, Callable[['Graph[T]', T, T], float]] = {
     'top': top_weighting,
     'lin': linear_weighting,
     'log': log_weighting
 }
 
 
+def resolve_weighting(
+        weighting: Union[str, Callable[['Graph[T]', T, T], float]]
+) -> Callable[['Graph[T]', T, T], float]:
+    """
+    Resolve the weighting function.
+
+    Parameters:
+        weighting: The weighing method to use.
+            It can be either a string specifying one of the three available schemas ('top', 'lin', 'log'),
+            or a custom weighting function. Defaults to 'top'.
+
+    Returns:
+        The weighting function.
+    """
+    if isinstance(weighting, str):
+        return WEIGHTING[weighting]
+    else:
+        return weighting
+
+
 # noinspection PyPep8Naming
-def chinese_whispers(G: Graph, weighting: Union[str, Callable[[Graph, Any, Any], float]] = 'top', iterations: int = 20,
-                     seed: Optional[int] = None, label_key: str = 'label') -> Graph:
+def chinese_whispers(
+        G: 'Graph[T]',
+        weighting: Union[str, Callable[['Graph[T]', T, T], float]] = 'top',
+        iterations: int = 20,
+        seed: Optional[int] = None,
+        label_key: str = 'label'
+) -> 'Graph[T]':
     """
     Perform clustering of nodes in a graph using the 'weighting' method.
 
@@ -103,10 +129,9 @@ def chinese_whispers(G: Graph, weighting: Union[str, Callable[[Graph, Any, Any],
 
     It is possible to specify the maximum number of iterations as well as the random seed to use.
     """
+    weighting_func = resolve_weighting(weighting)
 
-    weighting_func = WEIGHTING[weighting] if isinstance(weighting, str) else weighting
-
-    rng: Random = create_py_random_state(seed)
+    rng = create_py_random_state(seed)
 
     for i, node in enumerate(G):
         G.nodes[node][label_key] = i + 1
@@ -134,8 +159,12 @@ def chinese_whispers(G: Graph, weighting: Union[str, Callable[[Graph, Any, Any],
 
 
 # noinspection PyPep8Naming
-def score(G: Graph, node: Any, weighting_func: Callable[[Graph, Any, Any], float],
-          label_key: str) -> DefaultDict[int, float]:
+def score(
+        G: 'Graph[T]',
+        node: T,
+        weighting_func: Callable[['Graph[T]', T, T], float],
+        label_key: str
+) -> DefaultDict[int, float]:
     """
     Compute label scores in the given node neighborhood.
 
@@ -148,7 +177,6 @@ def score(G: Graph, node: Any, weighting_func: Callable[[Graph, Any, Any], float
     Returns:
         A dictionary with label scores as values.
     """
-
     scores: DefaultDict[int, float] = defaultdict(float)
 
     if node not in G:
@@ -160,8 +188,10 @@ def score(G: Graph, node: Any, weighting_func: Callable[[Graph, Any, Any], float
     return scores
 
 
-def random_argmax(items: Union[Sequence[Tuple[Any, float]], ItemsView[Any, float]],
-                  choice: Callable[[Sequence[Any]], Any] = random.choice) -> Optional[int]:
+def random_argmax(
+        items: ItemsView[T, float],
+        choice: Callable[[Sequence[T]], T] = random.choice
+) -> Optional[int]:
     """
     An argmax function that breaks the ties randomly.
 
@@ -184,7 +214,10 @@ def random_argmax(items: Union[Sequence[Tuple[Any, float]], ItemsView[Any, float
 
 
 # noinspection PyPep8Naming
-def aggregate_clusters(G: Graph, label_key: str = 'label') -> Dict[int, Set[Any]]:
+def aggregate_clusters(
+        G: 'Graph[T]',
+        label_key: str = 'label'
+) -> Dict[int, Set[T]]:
     """
     Produce a dictionary with the keys being cluster IDs and the values being sets of cluster elements.
 
@@ -196,7 +229,7 @@ def aggregate_clusters(G: Graph, label_key: str = 'label') -> Dict[int, Set[Any]
         A dictionary where the keys represent cluster IDs and the values are sets of cluster elements.
     """
 
-    clusters: Dict[int, Set[Any]] = {}
+    clusters: Dict[int, Set[T]] = {}
 
     for node in G:
         label = G.nodes[node][label_key]

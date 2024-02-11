@@ -35,6 +35,7 @@ dev = [
     "build",
     "matplotlib",
     "mypy",
+    "nbqa",
     "notebook",
     "ruff",
     "twine",

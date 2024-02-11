@@ -2,7 +2,7 @@
 
 import unittest
 from random import Random
-from typing import Tuple, Sequence
+from typing import ItemsView
 
 import networkx as nx
 from networkx.utils import edges_equal
@@ -11,8 +11,8 @@ from .chinese_whispers import chinese_whispers, aggregate_clusters, random_argma
 
 
 class TestRandomArgMax(unittest.TestCase):
-    EMPTY: Sequence[Tuple[int, int]] = []
-    ITEMS = [(1, 3), (2, 1), (3, 2), (4, 3)]
+    EMPTY: ItemsView[int, int] = {}.items()
+    ITEMS = {1: 3, 2: 1, 3: 2, 4: 3}.items()
 
     def test_empty(self) -> None:
         self.assertIsNone(random_argmax(self.EMPTY))
@@ -38,7 +38,7 @@ class TestChineseWhispers(unittest.TestCase):
         self.H_with_label_key = chinese_whispers(self.G.copy(), seed=self.SEED, label_key=self.custom_label_key)
 
     def test_return(self) -> None:
-        self.assertTrue(edges_equal(self.G.edges, self.H.edges))
+        self.assertTrue(edges_equal(self.G.edges, self.H.edges))  # type: ignore[no-untyped-call]
 
     def test_labels(self) -> None:
         self.assertEqual(34, len(self.H.nodes))
