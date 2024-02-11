@@ -17,7 +17,7 @@ T = TypeVar('T')
 class WeightDict(TypedDict):
     """A dictionary-like class that stores weights for nodes.
 
-    Parameters:
+    Attributes:
         weight: The weight value associated with a key.
     """
     weight: float
