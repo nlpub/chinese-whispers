@@ -18,6 +18,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: test
+    permissions:
+      id-token: write
     continue-on-error: ${{ contains(matrix.python-version, 'pypy') }}
     strategy:
       fail-fast: false
@@ -68,6 +71,11 @@ jobs:
       uses: actions/upload-pages-artifact@v3
       with:
         path: "./jupyter"
+      if: matrix.python-version == '3.12' && github.ref == 'refs/heads/master'
+    - name: Publish to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
       if: matrix.python-version == '3.12' && github.ref == 'refs/heads/master'
   deploy:
     if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
