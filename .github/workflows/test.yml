@@ -91,6 +91,8 @@ jobs:
         path: dist/
     - name: Publish to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
   pages:
     if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
     environment:
