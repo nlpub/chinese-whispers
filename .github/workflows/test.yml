@@ -93,6 +93,7 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         repository-url: https://test.pypi.org/legacy/
+        skip-existing: true
   pages:
     if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
     environment:
