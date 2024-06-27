@@ -38,7 +38,7 @@ jobs:
     - name: Lint with Mypy
       run: mypy chinese_whispers
     - name: Lint with Ruff
-      uses: chartboost/ruff-action@v1
+      run: ruff check
     - name: Test with unittest
       run: python3 -m unittest discover
     - name: Run Module
