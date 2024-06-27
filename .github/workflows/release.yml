@@ -4,6 +4,9 @@ on:
   release:
     types: [ published ]
 
+env:
+  DO_NOT_TRACK: 1
+
 jobs:
   deploy:
     runs-on: ubuntu-latest

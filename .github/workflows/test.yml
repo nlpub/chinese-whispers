@@ -11,6 +11,9 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+env:
+  DO_NOT_TRACK: 1
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,9 +31,8 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip
-        pip install pipenv
-        pipenv install --python "${{ matrix.python-version }}" --dev --system --skip-lock
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        uv pip install --system -e '.[dev,docs]'
     - name: Write karate_club.tsv
       run: python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
     - name: Lint with Mypy
@@ -69,7 +71,7 @@ jobs:
     - name: Upload packages
       uses: actions/upload-artifact@v4
       with:
-        name: python-package-distributions
+        name: packages
         path: dist/
       if: matrix.python-version == '3.12' && github.ref == 'refs/heads/master'
   pypi:
