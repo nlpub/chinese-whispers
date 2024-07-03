@@ -8,7 +8,6 @@ from math import log2
 from operator import itemgetter
 from typing import TYPE_CHECKING, TypedDict, TypeVar, cast
 
-from networkx.classes import Graph
 from networkx.utils import create_py_random_state
 
 if TYPE_CHECKING:
