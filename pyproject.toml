@@ -1,10 +1,9 @@
 [build-system]
 requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
 
 [project]
 name = "chinese_whispers"
-authors = [{name = "Dmitry Ustalov"}]
+authors = [{ name = "Dmitry Ustalov" }]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -23,9 +22,14 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Information Analysis",
     "Typing :: Typed",
 ]
-license = {text = "MIT"}
+license = { text = "MIT" }
 description = "An implementation of the Chinese Whispers clustering algorithm."
-keywords = ["graph clustering", "unsupervised learning", "chinese whispers", "cluster analysis"]
+keywords = [
+    "graph clustering",
+    "unsupervised learning",
+    "chinese whispers",
+    "cluster analysis",
+]
 requires-python = "~=3.8"
 dependencies = ["networkx >= 2.1,< 4.0"]
 dynamic = ["version"]
@@ -39,12 +43,9 @@ dev = [
     "notebook",
     "ruff",
     "twine",
-    "types-networkx"
+    "types-networkx",
 ]
-docs = [
-    "mkdocs-material",
-    "mkdocstrings-python"
-]
+docs = ["mkdocs-material", "mkdocstrings-python"]
 
 [project.readme]
 file = "README.md"
@@ -66,16 +67,31 @@ zip-safe = true
 include = ["chinese_whispers*"]
 
 [tool.setuptools.dynamic]
-version = {attr = "chinese_whispers.__version__"}
+version = { attr = "chinese_whispers.__version__" }
 
 [tool.mypy]
 ignore_missing_imports = true
 strict = true
 
 [tool.nbqa.addopts]
-mypy = [
-    "--disable-error-code=attr-defined"
-]
-ruff = [
-    "--ignore=E402"
+mypy = ["--disable-error-code=attr-defined"]
+ruff = ["--ignore=E402,T201"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D100",
+    "D203",
+    "D212",
+    "D406",
+    "D407",
+    "D413",
+    "N803",
+    "N806",
+    "PT009",
+    "S311",
 ]
