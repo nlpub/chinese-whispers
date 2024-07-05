@@ -6,12 +6,13 @@ import random
 from collections import defaultdict
 from math import log2
 from operator import itemgetter
-from typing import TYPE_CHECKING, TypedDict, TypeVar, cast
+from typing import TYPE_CHECKING, TypedDict, cast
 
 from networkx.utils import create_py_random_state
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Collection, Sequence
+    from typing import TypeVar
 
     from networkx.classes import Graph
 
