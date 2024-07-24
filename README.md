@@ -4,8 +4,8 @@ This is an implementation of the [Chinese Whispers](https://doi.org/10.3115/1654
 
 [![Unit Tests][github_tests_badge]][github_tests_link] [![Read the Docs][rtfd_badge]][rtfd_link] [![PyPI Version][pypi_badge]][pypi_link] [![Conda Version][conda_badge]][conda_link]
 
-[github_tests_badge]: https://github.com/nlpub/chinese-whispers/workflows/Unit%20Tests/badge.svg?branch=master
-[github_tests_link]: https://github.com/nlpub/chinese-whispers/actions?query=workflow%3A%22Unit+Tests%22
+[github_tests_badge]: https://github.com/nlpub/chinese-whispers/actions/workflows/test.yml/badge.svg?branch=master
+[github_tests_link]: https://github.com/nlpub/chinese-whispers/actions/workflows/test.yml
 [rtfd_badge]: https://readthedocs.org/projects/chinese-whispers/badge/
 [rtfd_link]: https://chinese-whispers.readthedocs.io/
 [pypi_badge]: https://badge.fury.io/py/chinese-whispers.svg
