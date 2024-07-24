@@ -1,6 +1,9 @@
 name: Publish to PyPI
 
 on:
+  push:
+    tags:
+    - v.+
   release:
     types: [ published ]
 
@@ -8,7 +11,7 @@ env:
   DO_NOT_TRACK: 1
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     environment: pypi
     permissions:
@@ -21,10 +24,51 @@ jobs:
         python-version: "3.12"
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip
-        pip install pipenv
-        pipenv install --python "3.12" --dev --system --skip-lock
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        uv pip install --system -e '.[dev,docs]'
     - name: Build
-      run: python3 -m build --sdist --wheel .
-    - name: Publish
+      run: |
+        python3 -m build --sdist --wheel .
+        twine check --strict dist/*
+    - name: Upload packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: packages
+        path: dist/
+  pypi:
+    if: github.event_name == 'release'
+    environment:
+      name: pypi
+      url: https://pypi.org/p/chinese-whispers
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Download packages
+      uses: actions/download-artifact@v4
+      with:
+        name: packages
+        path: dist/
+    - name: Publish to TestPyPI
       uses: pypa/gh-action-pypi-publish@release/v1
+  testpypi:
+    if: github.ref == 'refs/heads/master'
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/chinese-whispers
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Download packages
+      uses: actions/download-artifact@v4
+      with:
+        name: packages
+        path: dist/
+    - name: Publish to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        repository-url: https://test.pypi.org/legacy/
+        skip-existing: true
