@@ -206,7 +206,7 @@ def score(
         G: The input graph.
         node: The node in the graph.
         weighting_func: A function to calculate the weight between two nodes.
-        ignore: The set of nodes to ignore. Defaults to an empty set.
+        ignore: The set of nodes to ignore.
         label_key: The key to access the label value for each node in the graph.
 
     Returns:
