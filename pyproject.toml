@@ -75,7 +75,11 @@ strict = true
 
 [tool.nbqa.addopts]
 mypy = ["--disable-error-code=attr-defined"]
-ruff = ["--ignore=E402,T201"]
+ruff = [
+    "--ignore=D",    # pydocstyle
+    "--ignore=E402", # module-import-not-at-top-of-file
+    "--ignore=T201", # print
+]
 
 [tool.ruff]
 line-length = 120
