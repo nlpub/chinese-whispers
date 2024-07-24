@@ -48,11 +48,30 @@ class TestChineseWhispers(unittest.TestCase):
         assert list(self.G) == list(self.H)
 
         for node in self.H:
-            assert self.H.nodes[node]["label"] is not None
+            assert self.H.nodes[node].get("label") is not None
 
     def test_labels_with_custom_key(self) -> None:
         for node in self.H_with_label_key:
             assert self.H_with_label_key.nodes[node][self.custom_label_key] is not None
+
+    def test_ignore_all(self) -> None:
+        H_ignore = chinese_whispers(self.G.copy(), ignore=set(self.G), seed=self.SEED)
+
+        assert not aggregate_clusters(H_ignore)
+
+    def test_ignore_nothing(self) -> None:
+        H_ignore = chinese_whispers(self.G.copy(), ignore=set(), seed=self.SEED)
+
+        assert aggregate_clusters(H_ignore) == aggregate_clusters(self.H)
+
+    def test_ignore_one(self) -> None:
+        ignore = {0}
+
+        H_ignore = chinese_whispers(self.G.copy(), ignore=ignore, seed=self.SEED)
+
+        nodes = set.union(*aggregate_clusters(H_ignore).values())
+
+        assert set(self.G) - nodes == ignore
 
     def test_aggregation(self) -> None:
         clusters = aggregate_clusters(self.H)

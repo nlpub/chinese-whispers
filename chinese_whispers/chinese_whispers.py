@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 
+import math
 import random
 from collections import defaultdict
 from math import log2
 from operator import itemgetter
-from typing import TYPE_CHECKING, TypedDict, cast
+from typing import TYPE_CHECKING, Literal, TypedDict, cast
 
 from networkx.utils import create_py_random_state
 
@@ -17,7 +18,6 @@ if TYPE_CHECKING:
     from networkx.classes import Graph
 
     T = TypeVar("T")
-
 
 
 class WeightDict(TypedDict):
@@ -123,8 +123,9 @@ def resolve_weighting(
 
 def chinese_whispers(
         G: Graph[T],
-        weighting: str | Callable[[Graph[T], T, T], float] = "top",
+        weighting: Literal["top", "lin", "log"] | Callable[[Graph[T], T, T], float] = "top",
         iterations: int = 20,
+        ignore: set[T] | None = None,
         seed: int | None = None,
         label_key: str = "label",
 ) -> Graph[T]:
@@ -137,6 +138,7 @@ def chinese_whispers(
             It can be either a string specifying one of the three available schemas ('top', 'lin', 'log'),
             or a custom weighting function. Defaults to 'top'.
         iterations: The maximum number of iterations to perform. Defaults to 20.
+        ignore: The set of nodes to ignore. Defaults to an empty set.
         seed: The random seed to use. Defaults to None.
         label_key: The key to store the cluster labels in the graph nodes. Defaults to 'label'.
 
@@ -152,14 +154,22 @@ def chinese_whispers(
     It is possible to specify the maximum number of iterations as well as the random seed to use.
 
     """
+    if ignore is None:
+        ignore = set()
+
     weighting_func = resolve_weighting(weighting)
 
     rng = create_py_random_state(seed)
 
-    for i, node in enumerate(G):
-        G.nodes[node][label_key] = i + 1
+    nodes: list[T] = []
 
-    nodes = list(G)
+    for node in G:
+        G.nodes[node].pop(label_key, None)
+
+        if node not in ignore:
+            nodes.append(node)
+
+            G.nodes[node][label_key] = len(nodes)
 
     for _ in range(iterations):
         changes = False
@@ -170,7 +180,8 @@ def chinese_whispers(
             previous = G.nodes[node][label_key]
 
             if G[node]:
-                scores = score(G, node, weighting_func, label_key)
+                scores = score(G, node, weighting_func, ignore, label_key)
+
                 G.nodes[node][label_key] = random_argmax(scores.items(), choice=rng.choice)
 
             changes = changes or previous != G.nodes[node][label_key]
@@ -185,6 +196,7 @@ def score(
         G: Graph[T],
         node: T,
         weighting_func: Callable[[Graph[T], T, T], float],
+        ignore: set[T],
         label_key: str,
 ) -> defaultdict[int, float]:
     """
@@ -194,6 +206,7 @@ def score(
         G: The input graph.
         node: The node in the graph.
         weighting_func: A function to calculate the weight between two nodes.
+        ignore: The set of nodes to ignore. Defaults to an empty set.
         label_key: The key to access the label value for each node in the graph.
 
     Returns:
@@ -202,11 +215,15 @@ def score(
     """
     scores: defaultdict[int, float] = defaultdict(float)
 
-    if node not in G:
+    if node not in G or node in ignore:
         return scores
 
     for neighbor in G[node]:
-        scores[G.nodes[neighbor][label_key]] += weighting_func(G, node, neighbor)
+        if neighbor not in ignore:
+            scores[G.nodes[neighbor][label_key]] += weighting_func(G, node, neighbor)
+
+    if not scores:
+        scores[G.nodes[node][label_key]] = math.inf
 
     return scores
 
@@ -257,11 +274,12 @@ def aggregate_clusters(
     clusters: dict[int, set[T]] = {}
 
     for node in G:
-        label = G.nodes[node][label_key]
+        label = G.nodes[node].get(label_key)
 
-        if label not in clusters:
-            clusters[label] = {node}
-        else:
-            clusters[label].add(node)
+        if label is not None:
+            if label not in clusters:
+                clusters[label] = {node}
+            else:
+                clusters[label].add(node)
 
     return clusters

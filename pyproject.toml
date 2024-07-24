@@ -88,13 +88,14 @@ target-version = "py38"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "D203", # one-blank-line-before-class
-    "D212", # multi-line-summary-first-line
-    "D406", # new-line-after-section-name
-    "D407", # dashed-underline-after-section
-    "N803", # invalid-argument-name
-    "N806", # non-lowercase-variable-in-function
-    "S311", # suspicious-non-cryptographic-random-usage
+    "D203",    # one-blank-line-before-class
+    "D212",    # multi-line-summary-first-line
+    "D406",    # new-line-after-section-name
+    "D407",    # dashed-underline-after-section
+    "N803",    # invalid-argument-name
+    "N806",    # non-lowercase-variable-in-function
+    "PLR0913", # too-many-arguments
+    "S311",    # suspicious-non-cryptographic-random-usage
 ]
 
 [tool.ruff.lint.per-file-ignores]
