@@ -10,7 +10,7 @@ This is an implementation of the [Chinese Whispers](https://doi.org/10.3115/1654
 [rtfd_link]: https://chinese-whispers.readthedocs.io/
 [pypi_badge]: https://badge.fury.io/py/chinese-whispers.svg
 [pypi_link]: https://pypi.python.org/pypi/chinese-whispers
-[conda_badge]: https://img.shields.io/conda/vn/conda-forge/chinese-whispers.svg
+[conda_badge]: https://anaconda.org/conda-forge/chinese-whispers/badges/version.svg
 [conda_link]: https://anaconda.org/conda-forge/chinese-whispers
 
 ## Installation
