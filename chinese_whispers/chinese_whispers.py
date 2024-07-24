@@ -26,6 +26,7 @@ class WeightDict(TypedDict):
 
     Attributes:
         weight: The weight value associated with a key.
+
     """
 
     weight: float
@@ -46,6 +47,7 @@ def top_weighting(G: Graph[T], node: T, neighbor: T) -> float:
 
     Returns:
         The weight of the edge.
+
     """
     return cast(WeightDict, G[node][neighbor]).get("weight", 1.)
 
@@ -65,6 +67,7 @@ def linear_weighting(G: Graph[T], node: T, neighbor: T) -> float:
 
     Returns:
         The weight of the edge.
+
     """
     return cast(WeightDict, G[node][neighbor]).get("weight", 1.) / G.degree[neighbor]
 
@@ -84,6 +87,7 @@ def log_weighting(G: Graph[T], node: T, neighbor: T) -> float:
 
     Returns:
         The weight of the edge.
+
     """
     return cast(WeightDict, G[node][neighbor]).get("weight", 1.) / log2(G.degree[neighbor] + 1)
 
@@ -109,6 +113,7 @@ def resolve_weighting(
 
     Returns:
         The weighting function.
+
     """
     if isinstance(weighting, str):
         return WEIGHTING[weighting]
@@ -145,6 +150,7 @@ def chinese_whispers(
     - `log`: Normalize an edge weight by the logarithm of the related node degree.
 
     It is possible to specify the maximum number of iterations as well as the random seed to use.
+
     """
     weighting_func = resolve_weighting(weighting)
 
@@ -192,6 +198,7 @@ def score(
 
     Returns:
         A dictionary with label scores as values.
+
     """
     scores: defaultdict[int, float] = defaultdict(float)
 
@@ -219,6 +226,7 @@ def random_argmax(
 
     Returns:
         An optional integer representing the index of the maximum item, if exists.
+
     """
     if not items:
         # https://github.com/python/mypy/issues/1003
@@ -244,6 +252,7 @@ def aggregate_clusters(
 
     Returns:
         A dictionary where the keys represent cluster IDs and the values are sets of cluster elements.
+
     """
     clusters: dict[int, set[T]] = {}
 

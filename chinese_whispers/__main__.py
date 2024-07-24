@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+"""A command-line interface for Chinese Whispers."""
+
 import argparse
 
 import networkx as nx
