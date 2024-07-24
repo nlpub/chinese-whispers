@@ -17,7 +17,6 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
-    environment: test
     continue-on-error: ${{ contains(matrix.python-version, 'pypy') }}
     strategy:
       fail-fast: false
