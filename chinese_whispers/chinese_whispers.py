@@ -32,7 +32,7 @@ class WeightDict(TypedDict):
     weight: float
 
 
-def top_weighting(G: Graph[T], node: T, neighbor: T) -> float:
+def top_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
     """
     Return the weight of an edge between two nodes.
 
@@ -41,7 +41,7 @@ def top_weighting(G: Graph[T], node: T, neighbor: T) -> float:
     If the 'weight' attribute is not present, a default weight of 1.0 is assumed.
 
     Args:
-        G: The graph containing the edge.
+        graph: The graph containing the edge.
         node: The source node of the edge.
         neighbor: The target node of the edge.
 
@@ -49,10 +49,10 @@ def top_weighting(G: Graph[T], node: T, neighbor: T) -> float:
         The weight of the edge.
 
     """
-    return cast(WeightDict, G[node][neighbor]).get("weight", 1.)
+    return cast(WeightDict, graph[node][neighbor]).get("weight", 1.)
 
 
-def linear_weighting(G: Graph[T], node: T, neighbor: T) -> float:
+def linear_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
     """
     Calculate the edge weight using the linear weighting schema.
 
@@ -61,7 +61,7 @@ def linear_weighting(G: Graph[T], node: T, neighbor: T) -> float:
     If the 'weight' attribute is not present, a default weight of 1.0 is assumed.
 
     Args:
-        G: The graph that contains the nodes and edges.
+        graph: The graph that contains the nodes and edges.
         node: The source node of the edge.
         neighbor: The destination node of the edge.
 
@@ -69,10 +69,10 @@ def linear_weighting(G: Graph[T], node: T, neighbor: T) -> float:
         The weight of the edge.
 
     """
-    return cast(WeightDict, G[node][neighbor]).get("weight", 1.) / G.degree[neighbor]
+    return cast(WeightDict, graph[node][neighbor]).get("weight", 1.) / graph.degree[neighbor]
 
 
-def log_weighting(G: Graph[T], node: T, neighbor: T) -> float:
+def log_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
     """
     Calculate the edge weight using the logarithm weighting schema.
 
@@ -81,7 +81,7 @@ def log_weighting(G: Graph[T], node: T, neighbor: T) -> float:
     If the 'weight' attribute is not present, a default weight of 1.0 is assumed.
 
     Args:
-        G: The graph that contains the nodes and edges.
+        graph: The graph that contains the nodes and edges.
         node: The source node of the edge.
         neighbor: The destination node of the edge.
 
@@ -89,7 +89,7 @@ def log_weighting(G: Graph[T], node: T, neighbor: T) -> float:
         The weight of the edge.
 
     """
-    return cast(WeightDict, G[node][neighbor]).get("weight", 1.) / log2(G.degree[neighbor] + 1)
+    return cast(WeightDict, graph[node][neighbor]).get("weight", 1.) / log2(graph.degree[neighbor] + 1)
 
 
 """Shortcuts for the node weighting functions."""
@@ -122,7 +122,7 @@ def resolve_weighting(
 
 
 def chinese_whispers(
-        G: Graph[T],
+        graph: Graph[T],
         weighting: Literal["top", "lin", "log"] | Callable[[Graph[T], T, T], float] = "top",
         iterations: int = 20,
         ignore: set[T] | None = None,
@@ -133,7 +133,7 @@ def chinese_whispers(
     Perform clustering of nodes in a graph using the 'weighting' method.
 
     Args:
-        G: The input graph.
+        graph: The input graph.
         weighting: The weighing method to use.
             It can be either a string specifying one of the three available schemas ('top', 'lin', 'log'),
             or a custom weighting function. Defaults to 'top'.
@@ -163,13 +163,13 @@ def chinese_whispers(
 
     nodes: list[T] = []
 
-    for node in G:
-        G.nodes[node].pop(label_key, None)
+    for node in graph:
+        graph.nodes[node].pop(label_key, None)
 
         if node not in ignore:
             nodes.append(node)
 
-            G.nodes[node][label_key] = len(nodes)
+            graph.nodes[node][label_key] = len(nodes)
 
     for _ in range(iterations):
         changes = False
@@ -177,23 +177,23 @@ def chinese_whispers(
         rng.shuffle(nodes)
 
         for node in nodes:
-            previous = G.nodes[node][label_key]
+            previous = graph.nodes[node][label_key]
 
-            if G[node]:
-                scores = score(G, node, weighting_func, ignore, label_key)
+            if graph[node]:
+                scores = score(graph, node, weighting_func, ignore, label_key)
 
-                G.nodes[node][label_key] = random_argmax(scores.items(), choice=rng.choice)
+                graph.nodes[node][label_key] = random_argmax(scores.items(), choice=rng.choice)
 
-            changes = changes or previous != G.nodes[node][label_key]
+            changes = changes or previous != graph.nodes[node][label_key]
 
         if not changes:
             break
 
-    return G
+    return graph
 
 
 def score(
-        G: Graph[T],
+        graph: Graph[T],
         node: T,
         weighting_func: Callable[[Graph[T], T, T], float],
         ignore: set[T],
@@ -203,7 +203,7 @@ def score(
     Compute label scores in the given node neighborhood.
 
     Args:
-        G: The input graph.
+        graph: The input graph.
         node: The node in the graph.
         weighting_func: A function to calculate the weight between two nodes.
         ignore: The set of nodes to ignore.
@@ -215,15 +215,15 @@ def score(
     """
     scores: defaultdict[int, float] = defaultdict(float)
 
-    if node not in G or node in ignore:
+    if node not in graph or node in ignore:
         return scores
 
-    for neighbor in G[node]:
+    for neighbor in graph[node]:
         if neighbor not in ignore:
-            scores[G.nodes[neighbor][label_key]] += weighting_func(G, node, neighbor)
+            scores[graph.nodes[neighbor][label_key]] += weighting_func(graph, node, neighbor)
 
     if not scores:
-        scores[G.nodes[node][label_key]] = math.inf
+        scores[graph.nodes[node][label_key]] = math.inf
 
     return scores
 
@@ -257,14 +257,14 @@ def random_argmax(
 
 
 def aggregate_clusters(
-        G: Graph[T],
+        graph: Graph[T],
         label_key: str = "label",
 ) -> dict[int, set[T]]:
     """
     Produce a dictionary with the keys being cluster IDs and the values being sets of cluster elements.
 
     Args:
-        G: The graph object containing the clusters.
+        graph: The graph object containing the clusters.
         label_key: The attribute key used to identify the clusters. Defaults to 'label'.
 
     Returns:
@@ -273,8 +273,8 @@ def aggregate_clusters(
     """
     clusters: dict[int, set[T]] = {}
 
-    for node in G:
-        label = G.nodes[node].get(label_key)
+    for node in graph:
+        label = graph.nodes[node].get(label_key)
 
         if label is not None:
             if label not in clusters:

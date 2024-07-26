@@ -23,16 +23,16 @@ def main() -> None:
 
     lines = (line.rstrip() for line in args.edges)
 
-    G = nx.parse_edgelist(  # type: ignore[call-overload]
+    graph = nx.parse_edgelist(  # type: ignore[call-overload]
         lines,
         delimiter=args.delimiter,
         comments="\n",
         data=(("weight", float),),
     )
 
-    chinese_whispers(G, args.weighting, args.iterations, args.seed)
+    chinese_whispers(graph, args.weighting, args.iterations, args.seed)
 
-    for label, elements in aggregate_clusters(G).items():
+    for label, elements in aggregate_clusters(graph).items():
         elements_str = ", ".join(elements)
 
         print("\t".join((str(label), str(len(elements)), elements_str)))  # noqa: T201

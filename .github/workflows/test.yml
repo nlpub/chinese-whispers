@@ -38,8 +38,8 @@ jobs:
       run: mypy chinese_whispers
     - name: Lint with Ruff
       run: ruff check
-    - name: Test with unittest
-      run: python3 -m unittest discover
+    - name: Test with pytest
+      run: pytest
     - name: Run Module
       run: python3 -m chinese_whispers karate_club.tsv
     - name: Run CLI

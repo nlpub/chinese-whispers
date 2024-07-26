@@ -41,6 +41,7 @@ dev = [
     "mypy",
     "nbqa",
     "notebook",
+    "pytest",
     "ruff",
     "twine",
     "types-networkx",
@@ -92,8 +93,6 @@ ignore = [
     "D212",    # multi-line-summary-first-line
     "D406",    # new-line-after-section-name
     "D407",    # dashed-underline-after-section
-    "N803",    # invalid-argument-name
-    "N806",    # non-lowercase-variable-in-function
     "PLR0913", # too-many-arguments
     "S311",    # suspicious-non-cryptographic-random-usage
 ]
