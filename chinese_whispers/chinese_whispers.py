@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 import random
+import warnings
 from collections import defaultdict
 from math import log2
 from operator import itemgetter
@@ -72,6 +73,11 @@ def linear_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
     return cast(WeightDict, graph[node][neighbor]).get("weight", 1.) / graph.degree[neighbor]
 
 
+def lin_weighting(graph: Graph[T], node: T, neighbor: T) -> float:  # noqa: D103
+    warnings.warn("This function is deprecated, please use linear instead of lin", DeprecationWarning, stacklevel=2)
+    return linear_weighting(graph, node, neighbor)
+
+
 def log_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
     """
     Calculate the edge weight using the logarithm weighting schema.
@@ -95,7 +101,8 @@ def log_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
 """Shortcuts for the node weighting functions."""
 WEIGHTING: dict[str, Callable[[Graph[T], T, T], float]] = {
     "top": top_weighting,
-    "lin": linear_weighting,
+    "lin": lin_weighting,
+    "linear": linear_weighting,
     "log": log_weighting,
 }
 
@@ -123,7 +130,7 @@ def resolve_weighting(
 
 def chinese_whispers(
         graph: Graph[T],
-        weighting: Literal["top", "lin", "log"] | Callable[[Graph[T], T, T], float] = "top",
+        weighting: Literal["top", "lin", "linear", "log"] | Callable[[Graph[T], T, T], float] = "top",
         iterations: int = 20,
         ignore: set[T] | None = None,
         seed: int | None = None,
