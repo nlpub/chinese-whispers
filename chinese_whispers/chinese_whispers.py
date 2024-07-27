@@ -74,7 +74,7 @@ def linear_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
 
 
 def lin_weighting(graph: Graph[T], node: T, neighbor: T) -> float:  # noqa: D103
-    warnings.warn("This function is deprecated, please use linear instead of lin", DeprecationWarning, stacklevel=2)
+    warnings.warn("Please use 'linear' instead of 'lin'", DeprecationWarning, stacklevel=2)
     return linear_weighting(graph, node, neighbor)
 
 
@@ -115,7 +115,7 @@ def resolve_weighting(
 
     Args:
         weighting: The weighing method to use.
-            It can be either a string specifying one of the three available schemas ('top', 'lin', 'log'),
+            It can be either a string specifying one of the three available schemas ('top', 'linear', 'log'),
             or a custom weighting function. Defaults to 'top'.
 
     Returns:
@@ -142,7 +142,7 @@ def chinese_whispers(
     Args:
         graph: The input graph.
         weighting: The weighing method to use.
-            It can be either a string specifying one of the three available schemas ('top', 'lin', 'log'),
+            It can be either a string specifying one of the three available schemas ('top', 'linear', 'log'),
             or a custom weighting function. Defaults to 'top'.
         iterations: The maximum number of iterations to perform. Defaults to 20.
         ignore: The set of nodes to ignore. Defaults to an empty set.
