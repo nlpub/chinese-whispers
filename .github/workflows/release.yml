@@ -1,9 +1,6 @@
 name: Release
 
 on:
-  push:
-    tags:
-    - v.*
   release:
     types: [ published ]
 
@@ -35,23 +32,6 @@ jobs:
       with:
         name: packages
         path: dist/
-  pypi:
-    if: github.event_name == 'release'
-    environment:
-      name: pypi
-      url: https://pypi.org/p/chinese-whispers
-    permissions:
-      id-token: write
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Download packages
-      uses: actions/download-artifact@v4
-      with:
-        name: packages
-        path: dist/
-    - name: Publish to TestPyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
   testpypi:
     environment:
       name: testpypi
@@ -71,3 +51,20 @@ jobs:
       with:
         repository-url: https://test.pypi.org/legacy/
         skip-existing: true
+  pypi:
+    if: github.event_name == 'release'
+    environment:
+      name: pypi
+      url: https://pypi.org/p/chinese-whispers
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    needs: testpypi
+    steps:
+    - name: Download packages
+      uses: actions/download-artifact@v4
+      with:
+        name: packages
+        path: dist/
+    - name: Publish to TestPyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
