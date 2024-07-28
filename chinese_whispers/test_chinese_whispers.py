@@ -58,6 +58,12 @@ def clustered_graph_custom_key(graph: nx.Graph[int]) -> nx.Graph[int]:
     return chinese_whispers(graph, seed=0, label_key=CUSTOM_KEY)
 
 
+def test_empty() -> None:
+    graph: nx.Graph[Any] = chinese_whispers(nx.Graph(), seed=0)
+
+    assert not graph.nodes()
+
+
 def test_return(graph: nx.Graph[int], clustered_graph: nx.Graph[int]) -> None:
     assert edges_equal(graph.edges, clustered_graph.edges)  # type: ignore[no-untyped-call]
 
