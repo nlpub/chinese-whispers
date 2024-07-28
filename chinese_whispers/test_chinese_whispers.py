@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from random import Random
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, Any, cast
 
 import networkx as nx
 import pytest
@@ -96,6 +96,12 @@ def test_ignore_one(graph: nx.Graph[int]) -> None:
     nodes = set.union(*aggregate_clusters(graph_ignored).values())
 
     assert set(graph) - nodes == ignore
+
+
+def test_aggregation_empty() -> None:
+    clusters: dict[int, set[Any]] = aggregate_clusters(nx.Graph())
+
+    assert not clusters
 
 
 def test_aggregation(clustered_graph: nx.Graph[int]) -> None:
