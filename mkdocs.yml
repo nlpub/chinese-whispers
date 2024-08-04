@@ -15,3 +15,6 @@ plugins:
         import:
         - https://docs.python.org/3/objects.inv
         - https://networkx.org/documentation/stable/objects.inv
+        options:
+          show_symbol_type_heading: true
+          show_symbol_type_toc: true
