@@ -13,6 +13,7 @@ concurrency:
 
 env:
   DO_NOT_TRACK: 1
+  UV_SYSTEM_PYTHON: 1
 
 jobs:
   test:
@@ -28,10 +29,10 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Set up uv
+      uses: astral-sh/setup-uv@v3
     - name: Install dependencies
-      run: |
-        curl -LsSf https://astral.sh/uv/install.sh | sh
-        uv pip install --system -e '.[dev,docs]'
+      run: uv pip install -e '.[dev,docs]'
     - name: Write karate_club.tsv
       run: python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
     - name: Lint with Mypy
