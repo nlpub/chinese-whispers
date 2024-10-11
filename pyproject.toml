@@ -76,11 +76,6 @@ strict = true
 
 [tool.nbqa.addopts]
 mypy = ["--disable-error-code=attr-defined"]
-ruff = [
-    "--ignore=D",    # pydocstyle
-    "--ignore=E402", # module-import-not-at-top-of-file
-    "--ignore=T201", # print
-]
 
 [tool.ruff]
 line-length = 120
@@ -98,6 +93,11 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"*.ipynb" = [
+    "D",    # pydocstyle
+    "E402", # module-import-not-at-top-of-file
+    "T201", # print
+]
 "test_*.py" = [
     "D",       # pydocstyle
     "PLR2004", # magic-value-comparison
