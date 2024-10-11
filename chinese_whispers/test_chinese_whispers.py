@@ -15,12 +15,12 @@ if TYPE_CHECKING:
     from collections.abc import Collection
 
 
-@pytest.fixture()
+@pytest.fixture
 def empty_collection() -> Collection[tuple[int, int]]:
     return set()
 
 
-@pytest.fixture()
+@pytest.fixture
 def items_collection() -> Collection[tuple[int, int]]:
     return {1: 3, 2: 1, 3: 2, 4: 3}.items()
 
@@ -35,7 +35,7 @@ def test_random_argmax_items(items_collection: Collection[tuple[int, int]]) -> N
     assert random_argmax(items_collection, Random(2).choice) == 1
 
 
-@pytest.fixture()
+@pytest.fixture
 def graph() -> nx.Graph[int]:
     graph = nx.karate_club_graph()
 
@@ -45,7 +45,7 @@ def graph() -> nx.Graph[int]:
     return cast("nx.Graph[int]", graph)
 
 
-@pytest.fixture()
+@pytest.fixture
 def clustered_graph(graph: nx.Graph[int]) -> nx.Graph[int]:
     return chinese_whispers(graph, seed=0)
 
@@ -53,7 +53,7 @@ def clustered_graph(graph: nx.Graph[int]) -> nx.Graph[int]:
 CUSTOM_KEY = "cluster_id"
 
 
-@pytest.fixture()
+@pytest.fixture
 def clustered_graph_custom_key(graph: nx.Graph[int]) -> nx.Graph[int]:
     return chinese_whispers(graph, seed=0, label_key=CUSTOM_KEY)
 

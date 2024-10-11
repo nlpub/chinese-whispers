@@ -46,8 +46,6 @@ jobs:
       run: chinese-whispers karate_club.tsv
     - name: Lint Jupyter with Mypy
       run: nbqa mypy *.ipynb
-    - name: Lint Jupyter with Ruff
-      run: nbqa ruff *.ipynb
     - name: Run Jupyter
       run: |
         mkdir jupyter
