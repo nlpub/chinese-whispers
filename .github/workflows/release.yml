@@ -22,7 +22,7 @@ jobs:
       with:
         python-version: "3.13"
     - name: Set up uv
-      uses: astral-sh/setup-uv@v3
+      uses: astral-sh/setup-uv@v4
     - name: Install dependencies
       run: uv pip install -e '.[dev,docs]'
     - name: Build
