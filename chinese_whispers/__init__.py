@@ -21,12 +21,12 @@ __copyright = "Copyright 2018-2024 Dmitry Ustalov"
 __license__ = "MIT"
 
 __all__ = [
-    "__version__",
     "WEIGHTING",
-    "top_weighting",
+    "__version__",
+    "aggregate_clusters",
+    "chinese_whispers",
     "linear_weighting",
     "log_weighting",
-    "chinese_whispers",
     "random_argmax",
-    "aggregate_clusters",
+    "top_weighting",
 ]
