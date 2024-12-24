@@ -23,6 +23,8 @@ jobs:
         python-version: "3.13"
     - name: Set up uv
       uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: false
     - name: Install dependencies
       run: uv pip install -e '.[dev,docs]'
     - name: Build
@@ -49,7 +51,7 @@ jobs:
         name: packages
         path: dist/
     - name: Publish to TestPyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+      uses: pypa/gh-action-pypi-publish@v1.12.3
       with:
         repository-url: https://test.pypi.org/legacy/
         skip-existing: true
@@ -69,4 +71,4 @@ jobs:
         name: packages
         path: dist/
     - name: Publish to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+      uses: pypa/gh-action-pypi-publish@v1.12.3
