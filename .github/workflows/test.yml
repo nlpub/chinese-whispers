@@ -30,7 +30,10 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Set up uv
-      uses: astral-sh/setup-uv@v4
+      uses: astral-sh/setup-uv@v5
+      with:
+        cache-dependency-glob: |
+          **/pyproject.toml
     - name: Install dependencies
       run: uv pip install -e '.[dev,docs]'
     - name: Write karate_club.tsv
