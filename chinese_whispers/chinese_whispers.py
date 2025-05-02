@@ -50,7 +50,7 @@ def top_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
         The weight of the edge.
 
     """
-    return cast(WeightDict, graph[node][neighbor]).get("weight", 1.)
+    return cast("WeightDict", graph[node][neighbor]).get("weight", 1.)
 
 
 def linear_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
@@ -70,7 +70,7 @@ def linear_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
         The weight of the edge.
 
     """
-    return cast(WeightDict, graph[node][neighbor]).get("weight", 1.) / graph.degree[neighbor]
+    return cast("WeightDict", graph[node][neighbor]).get("weight", 1.) / graph.degree[neighbor]
 
 
 def lin_weighting(graph: Graph[T], node: T, neighbor: T) -> float:  # noqa: D103
@@ -95,7 +95,7 @@ def log_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
         The weight of the edge.
 
     """
-    return cast(WeightDict, graph[node][neighbor]).get("weight", 1.) / log2(graph.degree[neighbor] + 1)
+    return cast("WeightDict", graph[node][neighbor]).get("weight", 1.) / log2(graph.degree[neighbor] + 1)
 
 
 """Shortcuts for the node weighting functions."""
