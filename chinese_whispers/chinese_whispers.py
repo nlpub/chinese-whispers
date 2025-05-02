@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING, Literal, TypedDict, cast
 from networkx.utils import create_py_random_state
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Collection, Sequence
+    from collections.abc import Callable, Container, Collection, Sequence
     from typing import TypeVar
 
     from networkx.classes import Graph
@@ -132,7 +132,7 @@ def chinese_whispers(
         graph: Graph[T],
         weighting: Literal["top", "lin", "linear", "log"] | Callable[[Graph[T], T, T], float] = "top",
         iterations: int = 20,
-        ignore: set[T] | None = None,
+        ignore: Container[T] | None = None,
         seed: int | None = None,
         label_key: str = "label",
 ) -> Graph[T]:
@@ -203,7 +203,7 @@ def score(
         graph: Graph[T],
         node: T,
         weighting_func: Callable[[Graph[T], T, T], float],
-        ignore: set[T],
+        ignore: Container[T],
         label_key: str,
 ) -> defaultdict[int, float]:
     """
