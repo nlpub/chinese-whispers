@@ -13,7 +13,7 @@ from typing import TYPE_CHECKING, Literal, TypedDict, cast
 from networkx.utils import create_py_random_state
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Container, Collection, Sequence
+    from collections.abc import Callable, Collection, Container, Sequence
     from typing import TypeVar
 
     from networkx.classes import Graph
