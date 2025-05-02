@@ -13,7 +13,9 @@ concurrency:
 
 env:
   DO_NOT_TRACK: 1
-  UV_SYSTEM_PYTHON: 1
+
+permissions:
+  contents: read
 
 jobs:
   test:
@@ -30,10 +32,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Set up uv
-      uses: astral-sh/setup-uv@v5
+      uses: astral-sh/setup-uv@v6
       with:
-        cache-dependency-glob: |
-          **/pyproject.toml
+        activate-environment: true
     - name: Install dependencies
       run: uv pip install -e '.[dev,docs]'
     - name: Write karate_club.tsv

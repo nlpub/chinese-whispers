@@ -7,7 +7,9 @@ on:
 
 env:
   DO_NOT_TRACK: 1
-  UV_SYSTEM_PYTHON: 1
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -22,8 +24,9 @@ jobs:
       with:
         python-version: "3.13"
     - name: Set up uv
-      uses: astral-sh/setup-uv@v5
+      uses: astral-sh/setup-uv@v6
       with:
+        activate-environment: true
         enable-cache: false
     - name: Install dependencies
       run: uv pip install -e '.[dev,docs]'
