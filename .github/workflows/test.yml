@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [ "3.8", "3.9", "3.10", "3.11", "3.12", "3.13", "pypy3.10" ]
+        python-version: [ "3.9", "3.10", "3.11", "3.12", "3.13", "pypy3.10" ]
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
@@ -39,10 +39,10 @@ jobs:
       run: uv pip install -e '.[dev,docs]'
     - name: Write karate_club.tsv
       run: python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
-    - name: Lint with Mypy
+    - if: matrix.python-version != '3.9'
+      name: Lint with Mypy
       run: mypy chinese_whispers
-    - if: matrix.python-version != '3.8' && matrix.python-version != '3.9'
-      name: Lint with Ruff
+    - name: Lint with Ruff
       run: ruff check
     - name: Test with pytest
       run: pytest
