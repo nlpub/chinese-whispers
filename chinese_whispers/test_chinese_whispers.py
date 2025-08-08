@@ -65,7 +65,7 @@ def test_empty() -> None:
 
 
 def test_return(graph: nx.Graph[int], clustered_graph: nx.Graph[int]) -> None:
-    assert edges_equal(graph.edges, clustered_graph.edges)  # type: ignore[no-untyped-call]
+    assert edges_equal(graph.edges, clustered_graph.edges)
 
 
 def test_labels(graph: nx.Graph[int], clustered_graph: nx.Graph[int]) -> None:
