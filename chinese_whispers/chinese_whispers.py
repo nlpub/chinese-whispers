@@ -50,7 +50,7 @@ def top_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
         The weight of the edge.
 
     """
-    return cast("WeightDict", graph[node][neighbor]).get("weight", 1.)
+    return cast("WeightDict", graph[node][neighbor]).get("weight", 1.0)
 
 
 def linear_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
@@ -70,7 +70,7 @@ def linear_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
         The weight of the edge.
 
     """
-    return cast("WeightDict", graph[node][neighbor]).get("weight", 1.) / graph.degree[neighbor]
+    return cast("WeightDict", graph[node][neighbor]).get("weight", 1.0) / graph.degree[neighbor]  # type: ignore[index]
 
 
 def lin_weighting(graph: Graph[T], node: T, neighbor: T) -> float:  # noqa: D103
@@ -95,7 +95,7 @@ def log_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
         The weight of the edge.
 
     """
-    return cast("WeightDict", graph[node][neighbor]).get("weight", 1.) / log2(graph.degree[neighbor] + 1)
+    return cast("WeightDict", graph[node][neighbor]).get("weight", 1.0) / log2(graph.degree[neighbor] + 1)  # type: ignore[index]
 
 
 """Shortcuts for the node weighting functions."""
@@ -108,7 +108,7 @@ WEIGHTING: dict[str, Callable[[Graph[T], T, T], float]] = {
 
 
 def resolve_weighting(
-        weighting: str | Callable[[Graph[T], T, T], float],
+    weighting: str | Callable[[Graph[T], T, T], float],
 ) -> Callable[[Graph[T], T, T], float]:
     """
     Resolve the weighting function.
@@ -129,12 +129,12 @@ def resolve_weighting(
 
 
 def chinese_whispers(
-        graph: Graph[T],
-        weighting: Literal["top", "lin", "linear", "log"] | Callable[[Graph[T], T, T], float] = "top",
-        iterations: int = 20,
-        ignore: Container[T] | None = None,
-        seed: int | None = None,
-        label_key: str = "label",
+    graph: Graph[T],
+    weighting: Literal["top", "lin", "linear", "log"] | Callable[[Graph[T], T, T], float] = "top",
+    iterations: int = 20,
+    ignore: Container[T] | None = None,
+    seed: int | None = None,
+    label_key: str = "label",
 ) -> Graph[T]:
     """
     Perform clustering of nodes in a graph using the 'weighting' method.
@@ -200,11 +200,11 @@ def chinese_whispers(
 
 
 def score(
-        graph: Graph[T],
-        node: T,
-        weighting_func: Callable[[Graph[T], T, T], float],
-        ignore: Container[T],
-        label_key: str,
+    graph: Graph[T],
+    node: T,
+    weighting_func: Callable[[Graph[T], T, T], float],
+    ignore: Container[T],
+    label_key: str,
 ) -> defaultdict[int, float]:
     """
     Compute label scores in the given node neighborhood.
@@ -236,8 +236,8 @@ def score(
 
 
 def random_argmax(
-        items: Collection[tuple[T, float]],
-        choice: Callable[[Sequence[T]], T] = random.choice,
+    items: Collection[tuple[T, float]],
+    choice: Callable[[Sequence[T]], T] = random.choice,
 ) -> int | None:
     """
     Break the ties randomly.
@@ -264,8 +264,8 @@ def random_argmax(
 
 
 def aggregate_clusters(
-        graph: Graph[T],
-        label_key: str = "label",
+    graph: Graph[T],
+    label_key: str = "label",
 ) -> dict[int, set[T]]:
     """
     Produce a dictionary with the keys being cluster IDs and the values being sets of cluster elements.
