@@ -68,7 +68,7 @@ jobs:
       with:
         args: "--validate"
     - name: Upload Jupyter
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       with:
         path: "./jupyter"
       if: matrix.python-version == '3.13' && github.ref == 'refs/heads/master'
