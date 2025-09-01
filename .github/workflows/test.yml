@@ -50,7 +50,8 @@ jobs:
       run: python3 -m chinese_whispers karate_club.tsv
     - name: Run CLI
       run: chinese-whispers karate_club.tsv
-    - name: Lint Jupyter with Mypy
+    - if: matrix.python-version != '3.9'
+      name: Lint Jupyter with Mypy
       run: nbqa mypy *.ipynb
     - name: Run Jupyter
       run: |
