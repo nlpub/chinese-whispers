@@ -12,7 +12,7 @@ plugins:
     default_handler: python
     handlers:
       python:
-        import:
+        inventories:
         - https://docs.python.org/3/objects.inv
         - https://networkx.org/documentation/stable/objects.inv
         options:
