@@ -49,7 +49,11 @@ dev = [
     "twine",
     "types-networkx",
 ]
-docs = ["mkdocs-material", "mkdocstrings-python"]
+docs = [
+    "mkdocs-jupyter",
+    "mkdocs-material",
+    "mkdocstrings-python",
+]
 
 [project.readme]
 file = "README.md"
