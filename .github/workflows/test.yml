@@ -52,11 +52,12 @@ jobs:
       run: chinese-whispers karate_club.tsv
     - if: matrix.python-version != '3.9'
       name: Lint Jupyter with Mypy
-      run: nbqa mypy *.ipynb
+      run: nbqa mypy docs/*.ipynb
     - name: Run Jupyter
       run: |
         mkdir jupyter
-        jupyter nbconvert --to html --output jupyter/index.html --execute example.ipynb
+        jupyter nbconvert --to html --output tutorial.html --execute docs/tutorial.ipynb
+        mv docs/tutorial.html jupyter/
     - name: Run MkDocs
       run: mkdocs build --strict
     - name: Build
