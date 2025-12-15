@@ -35,7 +35,7 @@ jobs:
         python3 -m build --sdist --wheel .
         twine check --strict dist/*
     - name: Upload packages
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: packages
         path: dist/
