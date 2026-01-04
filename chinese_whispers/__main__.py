@@ -3,17 +3,21 @@
 """A command-line interface for Chinese Whispers."""
 
 import argparse
+from typing import TYPE_CHECKING, cast
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 import networkx as nx
 
-from chinese_whispers import WEIGHTING, aggregate_clusters, chinese_whispers
+from chinese_whispers import Weighting, aggregate_clusters, chinese_whispers
 from chinese_whispers import __version__ as version
 
 
 def main() -> None:
     """Entry point for the Chinese Whispers command-line interface."""
     parser = argparse.ArgumentParser()
-    parser.add_argument("--weighting", choices=WEIGHTING.keys(), default="lin")
+    parser.add_argument("--weighting", choices=[w.name.lower() for w in Weighting], default="linear")
     parser.add_argument("--delimiter", default="\t")
     parser.add_argument("--iterations", type=int, default=20)
     parser.add_argument("--seed", type=int, default=None)
@@ -23,11 +27,13 @@ def main() -> None:
 
     lines = (line.rstrip() for line in args.edges)
 
-    graph = nx.parse_edgelist(  # type: ignore[call-overload]
+    parse_edgelist = cast("Callable[..., nx.Graph[str]]", nx.parse_edgelist)
+
+    graph = parse_edgelist(
         lines,
         delimiter=args.delimiter,
         comments="\n",
-        data=(("weight", float),),
+        data=[("weight", float)],
     )
 
     chinese_whispers(graph, args.weighting, args.iterations, args.seed)

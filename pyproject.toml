@@ -47,6 +47,7 @@ dev = [
     "pytest",
     "ruff",
     "twine",
+    "ty",
     "types-networkx",
 ]
 docs = [

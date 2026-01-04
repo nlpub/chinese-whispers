@@ -19,17 +19,14 @@ jobs:
       id-token: write
     steps:
     - uses: actions/checkout@v6
-    - name: Set up Python
-      uses: actions/setup-python@v6
-      with:
-        python-version: "3.13"
     - name: Set up uv
       uses: astral-sh/setup-uv@v7
       with:
+        python-version: "3.14"
         activate-environment: true
         enable-cache: false
     - name: Install dependencies
-      run: uv pip install -e '.[dev,docs]'
+      run: uv sync --all-extras --dev
     - name: Build
       run: |
         python3 -m build --sdist --wheel .

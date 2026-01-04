@@ -5,7 +5,8 @@ An implementation of the Chinese Whispers clustering algorithm.
 """
 
 from .chinese_whispers import (
-    WEIGHTING,
+    UnknownWeightingError,
+    Weighting,
     aggregate_clusters,
     chinese_whispers,
     linear_weighting,
@@ -17,11 +18,12 @@ from .chinese_whispers import (
 __version__ = "0.9.0"
 __author__ = "Dmitry Ustalov"
 __credits__ = ["Alexander Panchenko", "Alexander Chambers", "Frederik Wille"]
-__copyright = "Copyright 2018-2024 Dmitry Ustalov"
+__copyright = "Copyright 2018-2026 Dmitry Ustalov"
 __license__ = "MIT"
 
 __all__ = [
-    "WEIGHTING",
+    "UnknownWeightingError",
+    "Weighting",
     "__version__",
     "aggregate_clusters",
     "chinese_whispers",

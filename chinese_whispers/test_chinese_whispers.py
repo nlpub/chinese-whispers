@@ -9,7 +9,14 @@ import networkx as nx
 import pytest
 from networkx.utils import edges_equal
 
-from .chinese_whispers import aggregate_clusters, chinese_whispers, random_argmax
+from .chinese_whispers import (
+    UnknownWeightingError,
+    Weighting,
+    aggregate_clusters,
+    chinese_whispers,
+    random_argmax,
+    resolve_weighting,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Collection
@@ -23,6 +30,15 @@ def empty_collection() -> Collection[tuple[int, int]]:
 @pytest.fixture
 def items_collection() -> Collection[tuple[int, int]]:
     return {1: 3, 2: 1, 3: 2, 4: 3}.items()
+
+
+def test_weighting() -> None:
+    assert resolve_weighting("top") == resolve_weighting(Weighting.TOP)
+
+
+def test_unknown_weighting() -> None:
+    with pytest.raises(UnknownWeightingError, match="Unknown weighting: pot"):
+        resolve_weighting("pot")
 
 
 def test_random_argmax_empty(empty_collection: Collection[tuple[int, int]]) -> None:

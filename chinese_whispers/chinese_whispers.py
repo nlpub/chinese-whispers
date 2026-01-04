@@ -4,21 +4,28 @@ from __future__ import annotations
 
 import math
 import random
-import warnings
 from collections import defaultdict
+from enum import Enum
 from math import log2
 from operator import itemgetter
-from typing import TYPE_CHECKING, Literal, TypedDict, cast
+from typing import TYPE_CHECKING, Literal, Protocol, TypedDict, TypeVar, cast, overload
 
 from networkx.utils import create_py_random_state
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Collection, Container, Sequence
-    from typing import TypeVar
 
     from networkx.classes import Graph
 
-    T = TypeVar("T")
+T = TypeVar("T")
+
+
+class UnknownWeightingError(ValueError):
+    """Exception raised when an unknown weighting schema is encountered."""
+
+    def __init__(self, weighting: object) -> None:
+        """Initialize the exception with the unknown weighting."""
+        super().__init__(f"Unknown weighting: {weighting}")
 
 
 class WeightDict(TypedDict):
@@ -73,11 +80,6 @@ def linear_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
     return cast("WeightDict", graph[node][neighbor]).get("weight", 1.0) / graph.degree[neighbor]
 
 
-def lin_weighting(graph: Graph[T], node: T, neighbor: T) -> float:  # noqa: D103
-    warnings.warn("Please use 'linear' instead of 'lin'", DeprecationWarning, stacklevel=2)
-    return linear_weighting(graph, node, neighbor)
-
-
 def log_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
     """
     Calculate the edge weight using the logarithm weighting schema.
@@ -98,39 +100,79 @@ def log_weighting(graph: Graph[T], node: T, neighbor: T) -> float:
     return cast("WeightDict", graph[node][neighbor]).get("weight", 1.0) / log2(graph.degree[neighbor] + 1)
 
 
-"""Shortcuts for the node weighting functions."""
-WEIGHTING: dict[str, Callable[[Graph[T], T, T], float]] = {
-    "top": top_weighting,
-    "lin": lin_weighting,
-    "linear": linear_weighting,
-    "log": log_weighting,
-}
+class WeightingFunc(Protocol[T]):
+    """Callable protocol for edge weighting functions."""
+
+    def __call__(self, graph: Graph[T], u: T, v: T) -> float:
+        """Calculate the weight of an edge between two nodes in a graph."""
+        ...
 
 
-def resolve_weighting(
-    weighting: str | Callable[[Graph[T], T, T], float],
-) -> Callable[[Graph[T], T, T], float]:
+class Weighting(Enum):
+    """Available weighting schemas."""
+
+    TOP = "top"
+    LINEAR = "linear"
+    LOGARITHMIC = "logarithmic"
+
+    def __call__(self, graph: Graph[T], u: T, v: T) -> float:
+        """Resolve to the corresponding weighting function and call it."""
+        if self is Weighting.TOP:
+            return top_weighting(graph, u, v)
+        if self is Weighting.LINEAR:
+            return linear_weighting(graph, u, v)
+        if self is Weighting.LOGARITHMIC:
+            return log_weighting(graph, u, v)
+
+        raise UnknownWeightingError(self)
+
+
+@overload
+def resolve_weighting(weighting: Literal["top", "linear", "logarithmic", "log"]) -> WeightingFunc[T]: ...
+
+
+@overload
+def resolve_weighting(weighting: Weighting) -> WeightingFunc[T]: ...
+
+
+@overload
+def resolve_weighting(weighting: WeightingFunc[T]) -> WeightingFunc[T]: ...
+
+
+@overload
+def resolve_weighting(weighting: str) -> WeightingFunc[T]: ...
+
+
+def resolve_weighting(weighting: str | Weighting | WeightingFunc[T]) -> WeightingFunc[T]:
     """
     Resolve the weighting function.
 
     Args:
         weighting: The weighing method to use.
-            It can be either a string specifying one of the three available schemas ('top', 'linear', 'log'),
-            or a custom weighting function. Defaults to 'top'.
+            It can be either a string specifying one of the available schemas ('top', 'linear', 'logarithmic'),
+            an instance of the Weighting enum, or a custom weighting function. Defaults to 'top'.
 
     Returns:
         The weighting function.
 
     """
+    if isinstance(weighting, Weighting):
+        return weighting
+
     if isinstance(weighting, str):
-        return WEIGHTING[weighting]
+        try:
+            return Weighting(weighting.lower())
+        except ValueError:
+            if weighting.lower() == "log":
+                return Weighting.LOGARITHMIC
+            raise UnknownWeightingError(weighting) from None
 
     return weighting
 
 
 def chinese_whispers(
     graph: Graph[T],
-    weighting: Literal["top", "lin", "linear", "log"] | Callable[[Graph[T], T, T], float] = "top",
+    weighting: Literal["top", "linear", "logarithmic", "log"] | Weighting | WeightingFunc[T] | None = None,
     iterations: int = 20,
     ignore: Container[T] | None = None,
     seed: int | None = None,
@@ -142,8 +184,8 @@ def chinese_whispers(
     Args:
         graph: The input graph.
         weighting: The weighing method to use.
-            It can be either a string specifying one of the three available schemas ('top', 'linear', 'log'),
-            or a custom weighting function. Defaults to 'top'.
+            It can be either a string specifying one of the available schemas ('top', 'linear', 'logarithmic', 'log'),
+            an instance of the Weighting Enum, or a custom weighting function. Defaults to Weighting.TOP.
         iterations: The maximum number of iterations to perform. Defaults to 20.
         ignore: The set of nodes to ignore. Defaults to an empty set.
         seed: The random seed to use. Defaults to None.
@@ -164,7 +206,7 @@ def chinese_whispers(
     if ignore is None:
         ignore = set()
 
-    weighting_func = resolve_weighting(weighting)
+    weighting_func: WeightingFunc[T] = resolve_weighting(weighting or "top")
 
     rng = create_py_random_state(seed)
 
@@ -202,7 +244,7 @@ def chinese_whispers(
 def score(
     graph: Graph[T],
     node: T,
-    weighting_func: Callable[[Graph[T], T, T], float],
+    weighting_func: WeightingFunc[T],
     ignore: Container[T],
     label_key: str,
 ) -> defaultdict[int, float]:
