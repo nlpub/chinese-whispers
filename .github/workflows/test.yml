@@ -39,7 +39,8 @@ jobs:
     - if: matrix.python-version != '3.9'
       name: Lint with Mypy
       run: mypy .
-    - name: Lint with ty
+    - if: matrix.python-version != '3.9'
+      name: Lint with ty
       run: ty check
     - name: Lint with Ruff
       run: ruff check
