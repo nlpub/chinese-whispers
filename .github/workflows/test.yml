@@ -38,7 +38,9 @@ jobs:
       run: python3 -c 'import networkx as nx; nx.write_weighted_edgelist(nx.karate_club_graph(), "karate_club.tsv", delimiter="\t")'
     - if: matrix.python-version != '3.9'
       name: Lint with Mypy
-      run: mypy chinese_whispers
+      run: mypy .
+    - name: Lint with ty
+      run: ty check
     - name: Lint with Ruff
       run: ruff check
     - name: Test with pytest
