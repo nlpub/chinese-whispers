@@ -15,7 +15,7 @@ from .chinese_whispers import (
     top_weighting,
 )
 
-__version__ = "0.9.0"
+__version__ = "0.10.0.rc1"
 __author__ = "Dmitry Ustalov"
 __credits__ = ["Alexander Panchenko", "Alexander Chambers", "Frederik Wille"]
 __copyright = "Copyright 2018-2026 Dmitry Ustalov"
