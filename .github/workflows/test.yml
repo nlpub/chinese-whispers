@@ -68,7 +68,7 @@ jobs:
         python3 -m build --sdist --wheel .
         twine check --strict dist/*
     - name: Upload Jupyter
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: jupyter
         path: jupyter
